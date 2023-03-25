@@ -8,17 +8,17 @@ const env = async () => {
     description: "primer producto",
     price: 100,
     thumbnail: "imagen",
-    code: "abc1235",
+    code: "abc123457",
     stock: 3,
   };
 
-  //let result = await manager.addProduct(product);
-  //console.log(result);
-  /*
+  let result = await manager.addProduct(product);
+  console.log(result);
+
   let products = await manager.getProducts();
   console.log(products);
- */
-  await manager.updateProduct(4, {
+
+  await manager.updateProduct(1, {
     title: "Producto actualizado",
     description: "Producto nuevo actualizado",
     price: 300,
@@ -27,7 +27,7 @@ const env = async () => {
 
   //console.log(products);
 
-  //await manager.deleteProduct(1);
+  // await manager.deleteProduct(2);
   /* console.log(await manager.getProductById()); */
 };
 

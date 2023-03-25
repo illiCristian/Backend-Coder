@@ -1,12 +1,12 @@
 [
 	{
-		"title": "nombre",
-		"description": "primer producto",
-		"price": 100,
+		"title": "Producto actualizado",
+		"description": "Producto nuevo actualizado",
+		"price": 300,
 		"thumbnail": "imagen",
 		"code": "abc123",
-		"stock": 3,
-		"id": 2
+		"stock": 10,
+		"id": 1
 	},
 	{
 		"title": "nombre",
@@ -15,6 +15,15 @@
 		"thumbnail": "imagen",
 		"code": "abc1234",
 		"stock": 3,
+		"id": 2
+	},
+	{
+		"title": "nombre",
+		"description": "primer producto",
+		"price": 100,
+		"thumbnail": "imagen",
+		"code": "abc12345",
+		"stock": 3,
 		"id": 3
 	},
 	{
@@ -22,7 +31,7 @@
 		"description": "Producto nuevo actualizado",
 		"price": 300,
 		"thumbnail": "imagen",
-		"code": "abc1235",
+		"code": "abc123457",
 		"stock": 10,
 		"id": 4
 	}

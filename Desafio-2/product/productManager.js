@@ -4,7 +4,7 @@ export default class ProductManager {
   constructor() {
     this.products = [];
     this.lastId = 0;
-    this.path = "./files/users.json";
+    this.path = "./files/products.json";
   }
   addProduct = async (product) => {
     const products = await this.getProducts();
@@ -55,7 +55,8 @@ export default class ProductManager {
   };
   updateProduct = async (id, updateProduct) => {
     const products = await this.getProducts();
-    const product = products.find((el) => el.id === id);
+    const product = await this.getProductById(id);
+    const index = products.findIndex((p) => p.id === id);
     const { title, description, price, thumbnail, code, stock } = updateProduct;
 
     if (!product) {
@@ -89,6 +90,10 @@ export default class ProductManager {
         : console.log(
             "La imagen no es una cadena de caracteres válida o esta vacia"
           );
+
+      if (index !== -1) {
+        products[index] = product;
+      }
       console.log(product);
       await fs.promises.writeFile(
         this.path,
@@ -99,7 +104,7 @@ export default class ProductManager {
   };
   deleteProduct = async (id) => {
     const products = await this.getProducts();
-    const product = products.find((el) => el.id === id);
+    const product = await this.getProductById(id);
     if (!product) {
       return console.log("Error: Producto no encontrado");
     } else {
