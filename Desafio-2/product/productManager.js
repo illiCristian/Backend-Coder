@@ -1,11 +1,13 @@
 import fs from "fs";
 
 export default class ProductManager {
+
   constructor() {
     this.products = [];
     this.lastId = 0;
     this.path = "./files/products.json";
   }
+  
   addProduct = async (product) => {
     const products = await this.getProducts();
     const { title, description, price, thumbnail, code, stock } = product;
@@ -54,14 +56,20 @@ export default class ProductManager {
     return product;
   };
   updateProduct = async (id, updateProduct) => {
+    /* Traigo los productos usando un metodo el metodo getProducts */
     const products = await this.getProducts();
+    // Get the product by id.
     const product = await this.getProductById(id);
+    // Get the index of the product.
     const index = products.findIndex((p) => p.id === id);
+    // Destructuring the updateProduct object.
     const { title, description, price, thumbnail, code, stock } = updateProduct;
-
+    // Check if the product exists.
     if (!product) {
       return console.log("Error: Producto no encontrado");
-    } else {
+    }
+    // Check if the product has the same code as another product.
+    else {
       title && typeof title === "string" && title.trim() !== ""
         ? (product.title = title)
         : console.log(

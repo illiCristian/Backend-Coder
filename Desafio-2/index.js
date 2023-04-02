@@ -12,18 +12,31 @@ const env = async () => {
     stock: 3,
   };
 
-  let result = await manager.addProduct(product);
-  console.log(result);
+  try {
+    let result = await manager.addProduct(product);
+    console.log(result);
+  } catch (error) {
+    console.log(error);
+  }
 
   let products = await manager.getProducts();
-  console.log(products);
+  if (products) {
+    console.log(products);
+  } else {
+    console.log("An error occurred");
+  }
+  console.log("This statement will always run");
 
-  await manager.updateProduct(1, {
-    title: "Producto actualizado",
-    description: "Producto nuevo actualizado",
-    price: 300,
-    stock: 10,
-  });
+  try {
+    await manager.updateProduct(1, {
+      title: "Producto actualizado",
+      description: "Producto nuevo actualizado",
+      price: 300,
+      stock: 10,
+    });
+  } catch (error) {
+    console.log("Error al actualizar el producto");
+  }
 
   //console.log(products);
 
