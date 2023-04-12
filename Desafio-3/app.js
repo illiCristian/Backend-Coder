@@ -7,7 +7,7 @@ const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 
-const PORT = 8080;
+const PORT = 8082;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
