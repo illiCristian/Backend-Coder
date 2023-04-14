@@ -5,6 +5,18 @@ const router = Router();
 const manager = new CartsManager();
 
 /* 
+Crear carrito
+*/
+router.post("/", async (req, res) => {
+  try {
+    const cart = await manager.addCarts();
+    res.send(cart);
+  } catch (error) {
+    res.status(500).send({ error: "Error al crear el carrito" });
+  }
+});
+
+/* 
 Obtener carrito por id
 metodo: get
 test: http://localhost:8080/api/carts/6eb5902a-1d49-41d8-9109-4b0005e845af 

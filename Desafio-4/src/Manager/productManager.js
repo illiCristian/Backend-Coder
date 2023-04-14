@@ -1,13 +1,16 @@
-import { error } from "console";
 import fs from "fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const path = "../src/files/products.json";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const filePath = path.join(__dirname, "../files/products.json");
 
 export default class ProductManager {
   constructor() {
     this.products = [];
     this.lastId = 0;
-    this.path = path;
+    this.path = filePath;
   }
 
   addProduct = async (product) => {
@@ -70,13 +73,23 @@ export default class ProductManager {
   };
   updateProduct = async (id, editProduct) => {
     /* Traigo los productos usando un metodo el metodo getProducts */
-    const { title, description, price, thumbnail, code, stock } = editProduct;
+    const {
+      title,
+      description,
+      price,
+      thumbnail,
+      code,
+      stock,
+      status,
+      category,
+    } = editProduct;
+    console.log(editProduct.status);
     const products = await this.getProducts();
     const product = await this.getProductById(id);
     const index = products.findIndex((p) => p.id === id);
 
     if (!product) {
-    return (mensaje = "Error: Producto no encontrado");
+      return (mensaje = "Error: Producto no encontrado");
     } else {
       title && typeof title === "string" && title.trim() !== ""
         ? (product.title = title)
@@ -106,7 +119,17 @@ export default class ProductManager {
         : console.log(
             "La imagen no es una cadena de caracteres válida o esta vacia"
           );
+      if (status) {
+        product.status = status;
+      } else {
+        console.log("El status no es un booleano");
+      }
 
+      category && typeof category === "string" && category.trim() !== ""
+        ? (product.category = category)
+        : console.log(
+            "La categoria no es una cadena de caracteres válida o esta vacia"
+          );
       if (index !== -1) {
         products[index] = product;
       }

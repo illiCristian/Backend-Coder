@@ -10,14 +10,15 @@
 		"status": true
 	},
 	{
-		"title": "Producto nuevo editado",
+		"title": "Producto nuevo agregado 7",
 		"description": "Remera estampada",
 		"price": 334,
 		"thumbnail": "direccion de la imagen",
 		"code": "15113212",
 		"stock": 31,
 		"id": 7,
-		"status": true
+		"status": true,
+		"category": "remerass"
 	},
 	{
 		"title": "remera",

@@ -1,14 +1,20 @@
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 import ProductManager from "./productManager.js";
-const path = "../src/files/carts.json";
+
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const filePath = path.join(__dirname, "../files/carts.json");
 
 const productManager = new ProductManager();
 
 export default class CartsManager {
   constructor() {
     this.carts = [];
-    this.path = path;
+    this.path = filePath;
   }
 
   getCarts = async (limit) => {
@@ -60,13 +66,13 @@ export default class CartsManager {
       const newProductInCart = cart.products.find(
         (prod) => prod.id === productId
       );
-      newProductInCart.cantidad++;
+      newProductInCart.quantity++;
       let newCart = [cart, ...cartFilter];
       await this.writeCarts(newCart);
       return "Producto sumado al carrito";
     }
 
-    cart.products.push({ id: productId, cantidad: 1 });
+    cart.products.push({ id: productId, quantity: 1 });
 
     let newCart = [cart, ...cartFilter];
 
