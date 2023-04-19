@@ -1,0 +1,12 @@
+
+{{#with (readJSON "products.json") as |products|}}
+  <ul>
+    {{#each products}}
+      <li>{{this.name}} - {{this.price}}</li>
+    {{/each}}
+  </ul>
+{{/with}}
+<h1>Web Socket</h1>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/home.js"></script>
