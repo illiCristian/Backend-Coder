@@ -17,6 +17,7 @@ export default class ProductManager {
     const products = await this.getProducts();
     const { title, description, price, thumbnail, code, stock, category } =
       product;
+     
 
     if (products.some((product) => product.code === code)) {
       console.log("Error: Producto con el mismo codigo ya existe!!");

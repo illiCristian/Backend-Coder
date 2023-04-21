@@ -1,1 +1,133 @@
 <h1>REALTIME PRODUCTS</h1>
+
+<div class="container text-center">
+  <div class="row">
+    <div class="col">
+      <div class="card border border-dark border-3 rounded">
+        <div class="card-body">
+          <form
+            id="product-form"
+            class="h-2 p-5"
+            method="post"
+            name="productos"
+          >
+            <div class="form-group">
+              <label for="title"><b>Title</b></label>
+              <input type="text" id="title" name="title" class="form-control" />
+            </div>
+
+            <div class="form-group">
+              <label for="price"><b>Price</b></label>
+              <input
+                type="number"
+                id="price"
+                name="price"
+                class="form-control"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="description"><b>Descripcion</b></label>
+              <input
+                type="text"
+                id="description"
+                name="description"
+                class="form-control"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="code"><b>Code</b></label>
+              <input type="text" id="code" name="code" class="form-control" />
+            </div>
+            <div class="form-group">
+              <label for="code"><b>Category</b></label>
+              <input
+                type="text"
+                id="category"
+                name="category"
+                class="form-control"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="stock"><b>Stock</b></label>
+              <input
+                type="number"
+                id="stock"
+                name="stock"
+                class="form-control"
+              />
+            </div>
+            <div class="form-group">
+              <label for="thumbnail"><b>thumbnail</b></label>
+              <input
+                type="text"
+                id="thumbnail"
+                name="thumbnail"
+                class="form-control"
+              />
+            </div>
+
+            <button class="btn btn-success mt-4">Agregar</button>
+
+          </form>
+          <br />
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card border border-dark border-3 rounded mt-3">
+        <div class="card-body">
+          <form
+            id="productdeleteForm"
+            class="h-2 p-5"
+            method="post"
+            name="productos"
+          >
+            <div class="form-group2">
+              <p>INGRESE EL ID DEL PRODUCTO A BORRAR</p>
+              <label for="id"><b>ID</b></label>
+              <input type="text" id="id" name="id" class="form-control2" />
+            </div>
+            <button class="btn btn-danger mt-4">Eliminar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <ul>
+        {{#each products}}
+          Nombre:
+          <h2>{{this.title}}</h2>
+          Description:
+          {{this.description}}
+          Price:
+          {{this.price}}
+          Stock:
+          {{this.stock}}
+          id
+        {{/each}}
+      </ul>
+    </div>
+    <div class="col">
+      <table>
+        <tbody id="printListProducts">
+          {{#each productos}}
+            <tr class="table">
+              <th>{{this.id}}</th>
+              <td>{{this.title}}</td>
+              <td>{{this.price}}</td>
+              <td>{{this.stock}}</td>
+              <td><img src="{{this.thumbnail}}" width="50" /></td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/home.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

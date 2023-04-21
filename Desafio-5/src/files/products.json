@@ -1,37 +1,6 @@
 [
 	{
-		"title": "remera",
-		"description": "remera de algodon",
-		"price": "150",
-		"thumbnail": "imagen.jpg",
-		"code": "2143",
-		"stock": 50,
-		"id": 6,
-		"status": true
-	},
-	{
-		"title": "Producto nuevo agregado 7",
-		"description": "Remera estampada",
-		"price": 334,
-		"thumbnail": "direccion de la imagen",
-		"code": "15113212",
-		"stock": 31,
-		"id": 7,
-		"status": true,
-		"category": "remerass"
-	},
-	{
-		"title": "remera",
-		"description": "remera de algodon",
-		"price": "150",
-		"thumbnail": "imagen.jpg",
-		"code": "2243",
-		"stock": 50,
-		"id": 8,
-		"status": true
-	},
-	{
-		"title": "remera",
+		"title": "Short",
 		"description": "remera de algodon",
 		"price": "150",
 		"thumbnail": "imagen.jpg",
@@ -41,7 +10,7 @@
 		"status": true
 	},
 	{
-		"title": "remera",
+		"title": "Camisa",
 		"description": "remera de algodon",
 		"price": "150",
 		"thumbnail": "imagen.jpg",
@@ -51,7 +20,7 @@
 		"status": true
 	},
 	{
-		"title": "Producto nuevo agregado",
+		"title": "Campera",
 		"description": "Remera lisa",
 		"price": 290,
 		"thumbnail": "direccion de la imagen",
@@ -71,5 +40,71 @@
 		"category": "remeras",
 		"status": true,
 		"id": 12
+	},
+	{
+		"title": "asd",
+		"description": "2qwe",
+		"price": "12",
+		"thumbnail": "123",
+		"code": "aweq12",
+		"stock": "334",
+		"category": "qweq",
+		"status": true,
+		"id": 13
+	},
+	{
+		"title": "Remera nueva",
+		"description": "remera",
+		"price": "1500",
+		"thumbnail": "direccion de la remera",
+		"code": "123asd",
+		"stock": "20",
+		"category": "Remera",
+		"status": true,
+		"id": 14
+	},
+	{
+		"title": "Chaleco",
+		"description": "nuevo chaleco",
+		"price": "1500",
+		"thumbnail": "direccion del chaleco",
+		"code": "as123",
+		"stock": "9",
+		"category": "chalecos",
+		"status": true,
+		"id": 15
+	},
+	{
+		"title": "Pantalon",
+		"description": "pantalon basico",
+		"price": "1200",
+		"thumbnail": "asd",
+		"code": "1200",
+		"stock": "12",
+		"category": "pantalones",
+		"status": true,
+		"id": 16
+	},
+	{
+		"title": "Pantalon",
+		"description": "pantalon rojo",
+		"price": "200",
+		"thumbnail": "fasd",
+		"code": "3001",
+		"stock": "2",
+		"category": "pantalones",
+		"status": true,
+		"id": 17
+	},
+	{
+		"title": "Ropa clara",
+		"description": "20 ropa",
+		"price": "300",
+		"thumbnail": "asd",
+		"code": "asdq12231",
+		"stock": "2",
+		"category": "ropa",
+		"status": true,
+		"id": 18
 	}
 ]
