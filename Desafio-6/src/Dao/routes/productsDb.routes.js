@@ -45,4 +45,14 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await productModel.findByIdAndDelete(id);
+    res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error al eliminar" });
+  }
+});
 export default router;

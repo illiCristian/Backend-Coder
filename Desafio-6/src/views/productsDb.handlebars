@@ -3,9 +3,11 @@
     <h1 class="font-bold text-xl p-4">En esta seccion se muestran los productos
       guardados en la base de datos MongoDb</h1>
   </div>
-  <div>
-    <form id="product-form" class="w-full max-w-sm mx-auto">
-      <div class="flex flex-wrap -mx-3 mb-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2">
+
+    <form id="product-form" class="w-full max-w-sm p-4 mt-4">
+      <h2 class="text-black font-bold p-2">Cargar un nuevo producto</h2>
+      <div class="flex flex-wrap -mx-3 mb-2">
         <div class="w-full px-3">
           <label
             class="block uppercase tracking-wide text-black text-xs font-bold mb-2"
@@ -21,7 +23,7 @@
           />
         </div>
       </div>
-      <div class="flex flex-wrap -mx-3 mb-6">
+      <div class="flex flex-wrap -mx-3 mb-2">
         <div class="w-full px-3">
           <label
             class="block uppercase tracking-wide text-black text-xs font-bold mb-2"
@@ -36,7 +38,7 @@
           ></textarea>
         </div>
       </div>
-      <div class="flex flex-wrap -mx-3 mb-6">
+      <div class="flex flex-wrap -mx-3 mb-2">
         <div class="w-full px-3">
           <label
             class="block uppercase tracking-wide text-black text-xs font-bold mb-2"
@@ -53,7 +55,7 @@
           />
         </div>
       </div>
-      <div class="flex flex-wrap -mx-3 mb-6">
+      <div class="flex flex-wrap -mx-3 mb-2">
         <div class="w-full px-3">
           <label
             class="block uppercase tracking-wide text-black text-xs font-bold mb-2"
@@ -69,7 +71,7 @@
           />
         </div>
       </div>
-      <div class="flex flex-wrap -mx-3 mb-6">
+      <div class="flex flex-wrap -mx-3 mb-2">
         <div class="w-full px-3">
           <label
             class="block uppercase tracking-wide text-black text-xs font-bold mb-2"
@@ -85,7 +87,7 @@
           />
         </div>
       </div>
-      <div class="flex flex-wrap -mx-3 mb-6">
+      <div class="flex flex-wrap -mx-3 mb-2">
         <div class="w-full px-3">
           <label
             class="block uppercase tracking-wide text-black text-xs font-bold mb-2"
@@ -102,7 +104,7 @@
         </div>
 
       </div>
-      <div class="flex flex-wrap -mx-3 mb-6">
+      <div class="flex flex-wrap -mx-3 mb-2">
         <div class="w-full px-3">
           <label
             class="block uppercase tracking-wide text-black text-xs font-bold mb-2"
@@ -146,6 +148,31 @@
         </div>
       </div>
     </form>
+    <div class="mt-4 p-4">
+      <h2 class="text-black font-bold p-2 mb-5">Eliminar un producto por ID</h2>
+      <div class="bg-white rounded-md p-3 shadow-md max-w-xs">
+        <form
+          id="productdeleteForm"
+          class="space-y-4"
+          method="post"
+          name="productos"
+        >
+          <div class="space-y-2">
+            <p class="font-medium">INGRESE EL ID DEL PRODUCTO A BORRAR</p>
+            <label for="id" class="font-medium block">ID</label>
+            <input
+              type="text"
+              id="id"
+              name="id"
+              class="w-full px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+            />
+          </div>
+          <button
+            class="w-full bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded-md"
+          >Eliminar</button>
+        </form>
+      </div>
+    </div>
   </div>
   <ul>
     {{#each products}}

@@ -36,3 +36,27 @@ form.addEventListener("submit", function (e) {
       console.error(error.message + "algun error random");
     });
 });
+
+//Borrar producto por id
+const deleteForm = document.getElementById("productdeleteForm");
+
+deleteForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const id = deleteForm.elements.id.value;
+  console.log(id);
+  fetch(`/api/productsDatabase/${id}`, {
+    method: "DELETE",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Delete successful:", data);
+    })
+    .catch((error) => {
+      console.error("There was a problem deleting the resource:", error);
+    });
+});
