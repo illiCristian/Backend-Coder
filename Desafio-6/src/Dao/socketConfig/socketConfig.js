@@ -1,8 +1,10 @@
 import ProductManager from "../Manager/productManager.js";
 import http from "http";
 import { Server } from "socket.io";
+import ChatManagerDb from "../Manager/chatManagerDb.js";
 const manager = new ProductManager();
-
+const chatManager = new ChatManagerDb();
+const messages = [];
 const configureServerSocket = (app) => {
   const server = http.createServer(app);
   const io = new Server(server);
@@ -25,11 +27,16 @@ const configureServerSocket = (app) => {
     });
     /* socketServerIO.emit("actualizarTabla", await manager.getProducts()); */
     //Listener del cliente
-    io.on("message", (data) => {
-      io.emit("log", data);
+    socket.on("message", (data) => {
+      messages.push(data);
+      io.emit("messageLogs", messages);
+      chatManager.saveChat(data); 
       console.log(data);
     });
-    io.on("disconnect", () => {
+    socket.on("authenticatedev", (data) => {
+      socket.broadcast.emit("newUserConnected", data);
+    });
+    socket.on("disconnect", () => {
       console.log("Cliente Desconectado");
     });
   });

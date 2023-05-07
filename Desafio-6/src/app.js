@@ -8,6 +8,7 @@ import productRouter from "./Dao/routes/products.router.js";
 import cartRouter from "./Dao/routes/cart.router.js";
 import realTimeProducts from "./Dao/routes/realTimeProducts.js";
 import productsDb from "./Dao/routes/productsDb.routes.js";
+import cartRouterDb from "./Dao/routes/cartsDb.routes.js";
 import configureServerSocket from "./Dao/socketConfig/socketConfig.js";
 import "./database.js";
 const app = express();
@@ -26,7 +27,7 @@ app.engine("handlebars", hbs.engine);
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 
-const PORT = process.env.PORT || 8081;
+const PORT = process.env.PORT || 8080;
 
 //Socket
 /* const socket = configureServerSocket(server); */
@@ -37,6 +38,7 @@ server.listen(PORT, () => {
 
 app.use("/realTimeProducts", realTimeProducts);
 app.use("/api/productsDatabase", productsDb);
+app.use("/api/cartsDb", cartRouterDb);
 app.use("/", viewRouter);
 app.use("/api/products", productRouter);
 app.use("/api/carts", cartRouter);

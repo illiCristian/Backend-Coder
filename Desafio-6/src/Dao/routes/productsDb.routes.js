@@ -2,10 +2,20 @@ import { Router } from "express";
 import productModel from "../models/products.js";
 
 const router = Router();
+
 const productsDb = Router();
 router.get("/", async (req, res) => {
   try {
     const result = await productModel.find();
+    res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
+  }
+});
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await productModel.findById(id);
     res.status(200).json(result);
   } catch (error) {
     console.log(error);
@@ -44,7 +54,23 @@ router.post("/", async (req, res) => {
     res.status(500).send({ message: error.message });
   }
 });
-
+router.put("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, description, price, stock, thumbnail, code, category } =
+      req.body;
+    const result = await productModel.findByIdAndUpdate(id, {
+      title,
+      description,
+      stock,
+      price,
+      thumbnail,
+      code,
+      category,
+    });
+    res.status(201).json(result);
+  } catch (error) {}
+});
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {

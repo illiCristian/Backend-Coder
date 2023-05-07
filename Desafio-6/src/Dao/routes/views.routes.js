@@ -24,5 +24,8 @@ router.get("/productsDb", async (req, res) => {
     console.log(error);
   }
 });
+router.get("/chat", (req, res) => {
+  res.render("chat", { title: "Chat" });
+});
 
 export default router;

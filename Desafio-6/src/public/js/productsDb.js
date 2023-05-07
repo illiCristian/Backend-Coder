@@ -1,5 +1,6 @@
 const product = [];
 const form = document.getElementById("product-form");
+
 form.addEventListener("submit", function (e) {
   e.preventDefault();
   const title = document.getElementById("title").value;
@@ -58,5 +59,63 @@ deleteForm.addEventListener("submit", (event) => {
     })
     .catch((error) => {
       console.error("There was a problem deleting the resource:", error);
+    });
+});
+
+//Editar producto
+const formEdit = document.getElementById("product-form-edit");
+
+formEdit.addEventListener("submit", function (e) {
+  e.preventDefault();
+  const id = document.getElementById("idEdit").value;
+  const title = document.getElementById("titleEdit").value;
+  const description = document.getElementById("descriptionEdit").value;
+  const price = document.getElementById("priceEdit").value;
+  const thumbnail = document.getElementById("thumbnailEdit").value;
+  const code = document.getElementById("codeEdit").value;
+  const stock = document.getElementById("stockEdit").value;
+  const category = document.getElementById("categoryEdit").value;
+
+  const requestBody = {};
+  if (title) {
+    requestBody.title = title;
+  }
+  if (description) {
+    requestBody.description = description;
+  }
+  if (price) {
+    requestBody.price = price;
+  }
+  if (thumbnail) {
+    requestBody.thumbnail = thumbnail;
+  }
+  if (code) {
+    requestBody.code = code;
+  }
+  if (stock) {
+    requestBody.stock = stock;
+  }
+  if (category) {
+    requestBody.category = category;
+  }
+
+  fetch(`/api/productsDatabase/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(requestBody),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Update successful:", data);
+    })
+    .catch((error) => {
+      console.error("There was a problem updating the resource:", error);
     });
 });
