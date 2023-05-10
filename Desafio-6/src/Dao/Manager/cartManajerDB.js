@@ -9,45 +9,57 @@ export default class CartsManagerDB {
       console.log(error + "error en el get carts ");
     }
   };
-
-  createCartDB = async function (product) {
+  getCartByIdDb = async function (id) {
     try {
-      cartModel.create(product);
+      const result = await cartModel.findById(id);
+      return result;
+    } catch (error) {
+      console.log(error + "error en el get cart by id ");
+    }
+  };
+  addProductInCartDb = async function (cart) {
+    try {
+      const result = await cartModel.findById(cart.id);
+      if (result) {
+        result.products.push({
+          productId: cart.productId,
+          quantity: cart.quantity,
+        });
+        await result.save();
+        return result;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.log(error + "error en el add product in cart ");
+    }
+  };
+  createCartDB = async function () {
+    try {
+      cartModel.create();
       return cartModel;
     } catch (error) {
       console.log(error + "error en el create cart");
     }
-    /*  const { _id } = cartsDb;
-    console.log(_id); */
-    /* try { 
-      cartModel.create(cart);
-      return cartModel;
-    } catch (error) {
-      console.log(error + "error en el create cart ");
-    }*/
   };
-  addProductInCart = async function (cart) {
+  addProductInCart = async function (cid, pid) {
     try {
-      const existingCart = await cartModel.findOne({ id: cart.id });
-      if (existingCart) {
-        existingCart.products.push({
-          productId: cart.productId,
-          quantity: cart.quantity,
-        });
-        await existingCart.save();
-        return existingCart;
+      const prodIndex = cart.products.findIndex((cprod) => cprod._id === cid);
+
+      if (prodIndex === -1) {
+        const product = {
+          _id: pid,
+          quantity: 1,
+        };
+        cart.products.push(product);
       } else {
-        const newCart = await cartModel.create({
-          id: cart.id,
-          products: [
-            {
-              productId: cart.productId,
-              quantity: cart.quantity,
-            },
-          ],
-        });
-        return newCart;
+        let total = cart.products[prodIndex].quantity;
+        cart.products[prodIndex].quantity = total + 1;
       }
+
+      const result = await cartModel.updateOne({ _id: cid }, { $set: cart });
+
+      return result;
     } catch (error) {
       console.log(error + "error en el create cart ");
     }
