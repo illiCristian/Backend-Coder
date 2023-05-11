@@ -40,9 +40,11 @@ router.post("/", async (req, res) => {
   }
 });
 //Agregar un producto al carrito
+//http://localhost:8080/api/cartsDb/64569e3b76205486b61f1375/product/64554742aa6dcf46b903dd30 test funcionando
 router.post("/:cid/product/:pid", async (req, res) => {
   const cartId = req.params.cid;
   const productId = req.params.pid;
+
   try {
     const response = await cartManagerDb.addProductInCart(cartId, productId);
     res.status(200).json(response);

@@ -44,24 +44,17 @@ export default class CartsManagerDB {
   };
   addProductInCart = async function (cid, pid) {
     try {
-      const prodIndex = cart.products.findIndex((cprod) => cprod._id === cid);
-
-      if (prodIndex === -1) {
-        const product = {
-          _id: pid,
-          quantity: 1,
-        };
-        cart.products.push(product);
+      const cart = await cartModel.findOne({ _id: cid });
+      const productIndex = cart.products.findIndex((p) => p.product == pid);
+      if (productIndex !== -1) {
+        cart.products[productIndex].quantity += 1;
       } else {
-        let total = cart.products[prodIndex].quantity;
-        cart.products[prodIndex].quantity = total + 1;
+        cart.products.push({ product: pid, quantity: 1 });
       }
-
-      const result = await cartModel.updateOne({ _id: cid }, { $set: cart });
-
+      const result = await cart.save();
       return result;
     } catch (error) {
-      console.log(error + "error en el create cart ");
+      console.log(error + "error en el add product in cartDB ");
     }
   };
 }
