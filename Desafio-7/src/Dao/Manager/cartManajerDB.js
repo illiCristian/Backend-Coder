@@ -1,4 +1,7 @@
 import cartModel from "../models/cart.js";
+import ProductManagerDb from "./productManagerDb.js";
+
+const productManager = new ProductManagerDb();
 
 export default class CartsManagerDB {
   getCartsDB = async function () {
@@ -44,10 +47,14 @@ export default class CartsManagerDB {
   };
   addProductInCart = async function (cid, pid) {
     try {
-      const cart = await cartModel.find({ _id: cid });
-      cart[0].products.push({ product: pid });
-      //updateOne recibe el filtro y despues el valor
-      const result = await cartModel.updateOne({ _id: cid }, { $set: cart[0] });
+      const cart = await cartModel.findOne({ _id: cid });
+      const productIndex = cart.products.findIndex((p) => p.product == pid);
+      if (productIndex !== -1) {
+        cart.products[productIndex].quantity += 1;
+      } else {
+        cart.products.push({ product: pid, quantity: 1 });
+      }
+      const result = await cart.save();
       return result;
     } catch (error) {
       console.log(error + "error en el add product in cartDB ");
@@ -66,11 +73,13 @@ export default class CartsManagerDB {
   };
   deleteProductsInCart = async function (cartID) {
     try {
-      const result = await cartModel.updateOne({ _id: cartID }, { $set: { products: [] } });
+      const result = await cartModel.updateOne(
+        { _id: cartID },
+        { $set: { products: [] } }
+      );
       return result;
     } catch (error) {
       console.log(error + "error en el delete products in cartDB ");
     }
   };
-  
 }

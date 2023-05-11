@@ -17,23 +17,6 @@ export default class CartsManagerDB {
       console.log(error + "error en el get cart by id ");
     }
   };
-  addProductInCartDb = async function (cart) {
-    try {
-      const result = await cartModel.findById(cart.id);
-      if (result) {
-        result.products.push({
-          productId: cart.productId,
-          quantity: cart.quantity,
-        });
-        await result.save();
-        return result;
-      } else {
-        return null;
-      }
-    } catch (error) {
-      console.log(error + "error en el add product in cart ");
-    }
-  };
   createCartDB = async function () {
     try {
       cartModel.create();
@@ -42,7 +25,7 @@ export default class CartsManagerDB {
       console.log(error + "error en el create cart");
     }
   };
-  addProductInCart = async function (cid, pid) {
+  addProductInCartDb = async function (cid, pid) {
     try {
       const cart = await cartModel.findOne({ _id: cid });
       const productIndex = cart.products.findIndex((p) => p.product == pid);

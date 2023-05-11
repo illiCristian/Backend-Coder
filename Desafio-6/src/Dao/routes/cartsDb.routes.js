@@ -46,7 +46,7 @@ router.post("/:cid/product/:pid", async (req, res) => {
   const productId = req.params.pid;
 
   try {
-    const response = await cartManagerDb.addProductInCart(cartId, productId);
+    const response = await cartManagerDb.addProductInCartDb(cartId, productId);
     res.status(200).json(response);
   } catch (error) {
     res
