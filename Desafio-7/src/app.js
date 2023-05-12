@@ -36,7 +36,6 @@ const { server } = configureServerSocket(app);
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT} http://localhost:${PORT}`);
 });
-
 app.use("/realTimeProducts", realTimeProducts);
 app.use("/api/productsDatabase", productsDb);
 app.use("/api/cartsDb", cartRouterDb);

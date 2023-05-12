@@ -1,12 +1,13 @@
 import { Router } from "express";
 import ProductManager from "../Manager/productManager.js";
 import productModel from "../models/products.js";
-import ProductManagerDb from "../Manager/productManagerDb.js";
+import { parse } from "uuid";
+/* import ProductManagerDb from "../Manager/productManagerDb.js"; */
 const router = Router();
 
 const manager = new ProductManager();
 
-const productsManagerDb = new ProductManagerDb();
+/* const productsManagerDb = new ProductManagerDb(); */
 
 router.get("/", async (req, res) => {
   const allProducts = await manager.getProducts();
@@ -31,9 +32,26 @@ router.get("/chat", (req, res) => {
   res.render("chat", { title: "Chat" });
 });
 router.get("/products", async (req, res) => {
-  const products = await productsManagerDb.getAllProducts();
-  const prods = products.map((item) => item.toObject());
-  res.render("products", { title: "Productos", products: prods });
+  const { page = 1, limit } = req.query;
+
+  const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } =
+    await productModel.paginate(
+      {},
+      { page, limit: parseInt(limit) || 6, lean: true }
+    );
+  const products = docs;
+
+  res.render("products", {
+    products,
+    hasPrevPage,
+    hasNextPage,
+    nextPage,
+    prevPage,
+    limit,
+  });
 });
 
 export default router;
+
+/*   const products = await productsManagerDb.getAllProducts();
+  const prods = products.map((item) => item.toObject()); */

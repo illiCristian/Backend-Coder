@@ -1,6 +1,5 @@
 import { Router } from "express";
-import CartsManagerDB from "../Manager/cartManajerDB.js";
-import cartModel from "../models/cart.js";
+import CartsManagerDB from "../Manager/cartManagerDB.js";
 
 const router = Router();
 
@@ -11,9 +10,10 @@ router.get("/", async (req, res) => {
     const resPonse = await cartManagerDb.getCartsDB();
     res.status(200).json(resPonse);
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: error.message, error: "error en el get del servidor" });
+    res.status(500).json({
+      error: error.message,
+      errorType: "error en el get del servidor",
+    });
   }
 });
 //Obtener carrito por id
@@ -34,9 +34,10 @@ router.post("/", async (req, res) => {
     const resPonse = await cartManagerDb.createCartDB(cart);
     res.status(200).json(resPonse);
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: error.message, error: "error en el post del servidor" });
+    res.status(500).json({
+      error: error.message,
+      errorType: "error en el post del servidor",
+    });
   }
 });
 //Agregar un producto al carrito
@@ -46,7 +47,11 @@ router.post("/:cid/product/:pid", async (req, res) => {
   const productId = req.params.pid;
 
   try {
-    const response = await cartManagerDb.addProductInCart(cartId, productId);
+    const response = await cartManagerDb.addProductInCartDB(cartId, productId);
+    if (!response)
+      return res
+        .status(404)
+        .send({ error: "No se pudo agregar, producto inexistente" });
     res.status(200).json(response);
   } catch (error) {
     res
@@ -61,6 +66,8 @@ router.delete("/:cid/product/:pid", async (req, res) => {
   const productId = req.params.pid;
   try {
     const response = await cartManagerDb.deleteProductInCart(cartId, productId);
+    if (response === null)
+      return res.status(404).send({ error: "Producto no encontrado" });
     res.status(200).json(response);
   } catch (error) {
     res
@@ -77,7 +84,7 @@ router.delete("/:cid", async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .json({ error: error.message, message: "Error en el servidor" });
+      .json({ error: error.message, errorType: "Error en el servidor" });
   }
 });
 
