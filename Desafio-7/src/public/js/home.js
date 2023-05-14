@@ -47,9 +47,6 @@ deleteForm.addEventListener("submit", (event) => {
   socket.emit("deleteProduct", { id });
 });
 
-const test = document.getElementById("buton-test");
-const divtest = document.getElementById("div-test");
-
 socket.on("printData", (data) => {
   try {
     renderizarTabla(data);

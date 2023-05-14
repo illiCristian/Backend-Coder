@@ -17,6 +17,8 @@ router.get("/", async (req, res) => {
   }
 });
 //Obtener carrito por id
+//http://localhost:8080/api/cartsDb/645ed1e42e52f2654412797d
+//resultado: muestra el carrito y el producto completo que esta dentro del carrito
 router.get("/:cid", async (req, res) => {
   const id = req.params.cid;
   try {
@@ -27,9 +29,10 @@ router.get("/:cid", async (req, res) => {
     res.status(500).send({ error: "Error al consultar el carrito" });
   }
 });
-//Crear un carrito
+//Crear un  carrito
 router.post("/", async (req, res) => {
   const cart = req.body;
+
   try {
     const resPonse = await cartManagerDb.createCartDB(cart);
     res.status(200).json(resPonse);
@@ -40,6 +43,20 @@ router.post("/", async (req, res) => {
     });
   }
 });
+//Crear un  carrito y agregar un producto validado que existe en la bd
+router.post("/:pid", async (req, res) => {
+  const { pid } = req.params;
+  try {
+    const resPonse = await cartManagerDb.createCartAddProductDB(pid);
+    res.status(200).json(resPonse);
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+      errorType: "error en el post del servidor",
+    });
+  }
+});
+
 //Agregar un producto al carrito
 //http://localhost:8080/api/cartsDb/64569e3b76205486b61f1375/product/64554737aa6dcf46b903dd2e test funcionando
 router.post("/:cid/product/:pid", async (req, res) => {
@@ -76,6 +93,8 @@ router.delete("/:cid/product/:pid", async (req, res) => {
   }
 });
 //Borrar todos los productos de un carrito
+//test http://localhost:8080/api/cartsDb/645ed1db2e52f26544127978
+//resultado: muestra el carrito sin el producto que se borro en el delete
 router.delete("/:cid", async (req, res) => {
   const cartId = req.params.cid;
   try {
@@ -88,4 +107,23 @@ router.delete("/:cid", async (req, res) => {
   }
 });
 
+router.put("/:cid/product/:pid", async (req, res) => {
+  const { pid, cid } = req.params;
+  const { quantity } = req.body;
+  console.log(pid, cid, quantity);
+  try {
+    const response = await cartManagerDb.updateProductInCart(
+      cid,
+      pid,
+      quantity
+    );
+    if (response === null)
+      return res.status(404).send({ error: "Producto no encontrado" });
+    res.status(200).json(response);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: error.message, errorType: "Error en el servidor" });
+  }
+});
 export default router;
