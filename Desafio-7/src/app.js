@@ -42,3 +42,21 @@ app.use("/api/cartsDb", cartRouterDb);
 app.use("/", viewRouter);
 app.use("/api/products", productRouter);
 app.use("/api/carts", cartRouter);
+
+
+
+
+
+
+/* Funcion creada para subir datos a la bd  
+import products from "./Dao/files/arrayProductos.js";
+import productModel from "./Dao/models/products.js";
+
+async function main() {
+  try {
+    await productModel.insertMany(products);
+  } catch (error) {
+    console.log(error);
+  }
+} */
+// main();

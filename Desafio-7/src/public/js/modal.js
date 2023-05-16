@@ -43,3 +43,15 @@ function closeModal() {
   const modal = document.getElementById("product-modal");
   modal.style.display = "none";
 }
+
+// Obtener referencias a los elementos del dropdown
+const dropdownToggleButton = document.getElementById("dropdownDefaultButton");
+const dropdownMenu = document.getElementById("dropdown");
+
+// Función para alternar la visibilidad del menú desplegable
+function toggleDropdown() {
+  dropdownMenu.classList.toggle("hidden");
+}
+
+// Agregar evento click al botón del dropdown
+dropdownToggleButton.addEventListener("click", toggleDropdown);

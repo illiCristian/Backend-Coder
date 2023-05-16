@@ -3,7 +3,6 @@ import productModel from "../models/products.js";
 
 const router = Router();
 
-const productsDb = Router();
 router.get("/", async (req, res) => {
   try {
     const result = await productModel.find();
@@ -54,11 +53,23 @@ router.post("/", async (req, res) => {
     res.status(500).send({ message: error.message });
   }
 });
+//http://localhost:8080/api/productsDatabase/6462956ccdb11f7f26a847e0
+//req.body 
+//result status: false
 router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, description, price, stock, thumbnail, code, category } =
-      req.body;
+    const {
+      title,
+      description,
+      price,
+      stock,
+      thumbnail,
+      code,
+      category,
+      status,
+    } = req.body;
+    console.log(req.body);
     const result = await productModel.findByIdAndUpdate(id, {
       title,
       description,
@@ -67,9 +78,12 @@ router.put("/:id", async (req, res) => {
       thumbnail,
       code,
       category,
+      status,
     });
     res.status(201).json(result);
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
 });
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;

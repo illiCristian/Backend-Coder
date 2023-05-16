@@ -96,8 +96,7 @@ export default class CartsManagerDB {
       console.log(error + "error en el delete products in cartDB ");
     }
   };
-  //test http://localhost:8080/api/cartsDb/645ed1e42e52f2654412797d/product/645d306ed43cdb657147638d {quantity: 121}
-  //result  "quantity": 121,
+
   updateProductInCart = async function (cid, pid, quantity) {
     const productExist = await productModel.findById(pid);
     if (!productExist) return null;
@@ -114,5 +113,25 @@ export default class CartsManagerDB {
       console.log(error + "error en el update product in cartDB ");
       return null;
     }
+  };
+  updateCart = async function (cid, cart) {
+    const cartExist = await cartModel.findById(cid);
+    if (!cartExist) return null;
+    if (!Array.isArray(cart)) {
+      throw new Error("El carrito debe ser un arreglo de productos");
+    }
+    for (const product of cart) {
+      const existingProduct = cartExist.products.find(
+        (p) => p.product.toString() === product.product
+      );
+
+      if (existingProduct) {
+        existingProduct.quantity += product.quantity;
+      } else {
+        cartExist.products.push(product);
+      }
+    }
+    const updatedCart = await cartExist.save(); 
+    return updatedCart;
   };
 }

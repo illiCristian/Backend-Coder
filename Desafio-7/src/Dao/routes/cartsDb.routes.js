@@ -43,7 +43,7 @@ router.post("/", async (req, res) => {
     });
   }
 });
-//Crear un  carrito y agregar un producto validado que existe en la bd
+//Crear un  carrito y agregar un producto validado que el producto existe en la bd
 router.post("/:pid", async (req, res) => {
   const { pid } = req.params;
   try {
@@ -62,7 +62,6 @@ router.post("/:pid", async (req, res) => {
 router.post("/:cid/product/:pid", async (req, res) => {
   const cartId = req.params.cid;
   const productId = req.params.pid;
-
   try {
     const response = await cartManagerDb.addProductInCartDB(cartId, productId);
     if (!response)
@@ -106,7 +105,8 @@ router.delete("/:cid", async (req, res) => {
       .json({ error: error.message, errorType: "Error en el servidor" });
   }
 });
-
+//test http://localhost:8080/api/cartsDb/645ed1e42e52f2654412797d/product/645d306ed43cdb657147638d {quantity: 121}
+//result  "quantity": 121,
 router.put("/:cid/product/:pid", async (req, res) => {
   const { pid, cid } = req.params;
   const { quantity } = req.body;
@@ -119,6 +119,42 @@ router.put("/:cid/product/:pid", async (req, res) => {
     );
     if (response === null)
       return res.status(404).send({ error: "Producto no encontrado" });
+    res.status(200).json(response);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: error.message, errorType: "Error en el servidor" });
+  }
+});
+//Actualizar actualizar el carrito con un arreglo de productos con el formato especificado arriba.
+//Test http://localhost:8080/api/cartsDb/645ed1e42e52f2654412797d
+/* Body: [{
+                "product": "6462956ccdb11f7f26a847e2",
+                "quantity": 24
+               
+            },{
+                "product": "6462956ccdb11f7f26a847e1",
+                "quantity": 20
+            },{
+                "product": "6462956ccdb11f7f26a847e4",
+                "quantity": 10
+            },{
+                "product": "6462956ccdb11f7f26a847e5",
+                "quantity": 100
+            },{
+                "product": "6462956ccdb11f7f26a847e6",
+                "quantity": 120
+            }
+]*/
+//resultado: muestra el carrito con los productos actualizados
+router.put("/:cid", async (req, res) => {
+  const { cid } = req.params;
+  const products = req.body;
+  console.log(products);
+  try {
+    const response = await cartManagerDb.updateCart(cid, products);
+    if (response === null)
+      return res.status(404).send({ error: "Carrito no encontrado" });
     res.status(200).json(response);
   } catch (error) {
     res

@@ -5,20 +5,18 @@ import cartModel from "../models/cart.js";
 /* import ProductManagerDb from "../Manager/productManagerDb.js"; */
 const router = Router();
 const manager = new ProductManager();
-/* const productsManagerDb = new ProductManagerDb(); */
+
 router.get("/", async (req, res) => {
-  /*  const allProducts = await manager.getProducts();
-  res.render("home", { title: "Productos", products: allProducts }); */
-  const { page = 1, limit, query, sort } = req.query;
-  const options = { page, limit: parseInt(limit) || 6, lean: true };
+  const { page = 1, limit, category, sort } = req.query;
+  const options = { page, limit: parseInt(limit) || 20, lean: true };
   if (sort) {
     options.sort = { [sort]: 1 };
   } else {
-    options.sort = { title: 1 }; // ordena por nombre si no se especifica ninguna clave de ordenamiento
+    options.sort = { title: 1 };
   }
-  const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } =
+  const { docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } =
     await productModel.paginate(
-      { category: query || { $exists: true } },
+      { category: category || { $exists: true } },
       options
     );
   const products = docs;
@@ -30,6 +28,7 @@ router.get("/", async (req, res) => {
     nextPage,
     prevPage,
     limit,
+    totalPages,
   });
 });
 
@@ -51,20 +50,21 @@ router.get("/productsDb", async (req, res) => {
 router.get("/chat", (req, res) => {
   res.render("chat", { title: "Chat" });
 });
+/*  */
 router.get("/products", async (req, res) => {
-  const { page = 1, limit, query, sort } = req.query;
-  const options = { page, limit: parseInt(limit) || 6, lean: true };
+  const { page = 1, limit, category, sort, status } = req.query;
+  const options = { page, limit: parseInt(limit) || 20, lean: true };
   if (sort) {
     options.sort = { [sort]: 1 };
   } else {
-    options.sort = { title: 1 }; // ordena por nombre si no se especifica ninguna clave de ordenamiento
+    options.sort = { title: 1 };
   }
-
-  const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } =
-    await productModel.paginate(
-      { category: query || { $exists: true } },
-      options
-    );
+  const filter = { category: category || { $exists: true } };
+  if (status !== undefined) {
+    filter.status = status === "true";
+  }
+  const { docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } =
+    await productModel.paginate(filter, options);
   const products = docs;
 
   res.render("products", {
@@ -74,6 +74,7 @@ router.get("/products", async (req, res) => {
     nextPage,
     prevPage,
     limit,
+    totalPages,
   });
 });
 

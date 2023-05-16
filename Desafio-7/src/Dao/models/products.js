@@ -28,6 +28,10 @@ const schema = new mongoose.Schema(
       trim: true,
       enum: ["pantalones", "remeras", "zapatos", "camisas", "test"],
     },
+    status: {
+      type: Boolean,
+      required: true,
+    },
     stock: {
       type: Number,
       required: true,
