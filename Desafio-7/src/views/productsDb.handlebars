@@ -303,9 +303,9 @@
               id="categoryEdit"
             >
               <option value="" disabled selected>Select a category</option>
-              <option value="PANTALONES">PANTALONES</option>
-              <option value="CAMPERAS">CAMPERAS</option>
-              <option value="REMERAS">REMERAS</option>
+              <option value="pantalones">PANTALONES</option>
+              <option value="camperas">CAMPERAS</option>
+              <option value="remeras">REMERAS</option>
               <option value="test">Test</option>
             </select>
             <div
@@ -333,20 +333,7 @@
         </div>
       </div>
     </form>
-  </div>
-  <ul>
-    {{#each products}}
-      Nombre:
-      <h2>{{this.title}}</h2>
-      Description:
-      {{this.description}}
-      Price:
-      {{this.price}}
-      Stock:
-      {{this.stock}}
-      id
-    {{/each}}
-  </ul>
+  </div>  
 
 </section>
 
