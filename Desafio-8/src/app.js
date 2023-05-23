@@ -6,6 +6,7 @@ import configureMiddlewares from "./config/middlewares.js";
 import configureRoutes from "./config/routes.js";
 import configureHandlebars from "./config/handlebars.js";
 import sessionRouter from "./Dao/routes/sessions.routes.js";
+
 const app = express();
 
 configureMiddlewares(app);

@@ -111,11 +111,15 @@ router.get("/login", publicAcces, (req, res) => {
 });
 
 router.get("/profile", privateAcces, (req, res) => {
+  console.log(req.session.user);
   res.render("profile", {
     user: req.session.user,
   });
 });
 
+router.get("/resetpassword", (req, res) => {
+  res.render("resetpassword");
+});
 export default router;
 
 /*   const products = await productsManagerDb.getAllProducts();

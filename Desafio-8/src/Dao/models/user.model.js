@@ -4,12 +4,28 @@ const collection = "User";
 
 const userSchema = new mongoose.Schema(
   {
-    first_name: String,
-    last_name: String,
-    email: String,
+    first_name: {
+      trim: true,
+      type: String,
+      required: true,
+    },
+    last_name: {
+      trim: true,
+      type: String,
+    },
+    email: {
+      trim: true,
+      type: String,
+      required: true,
+    },
     password: String,
-    role: String,
-    age: Number,
+    age: { type: Number },
+    role: {
+      type: String,
+      trim: true,
+      default: "user",
+      enum: ["user", "admin"],
+    },
   },
   {
     timestamps: true,

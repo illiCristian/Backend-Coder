@@ -7,6 +7,9 @@ export default function configureHandlebars(app) {
     partialsDir: path.join(app.get("views"), "partials"),
     helpers: {
       readJSON: readJSON,
+      isAdmin: function (role) {
+        return role === "admin";
+      },
     },
     allowProtoPropertiesInData: true,
   });
