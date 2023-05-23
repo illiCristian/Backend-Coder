@@ -29,6 +29,7 @@ router.get("/", async (req, res) => {
     prevPage,
     limit,
     totalPages,
+    user: req.session.user,
   });
 });
 
@@ -54,6 +55,7 @@ router.get("/chat", (req, res) => {
 router.get("/products", async (req, res) => {
   const { page = 1, limit, category, sort, status } = req.query;
   const options = { page, limit: parseInt(limit) || 20, lean: true };
+
   if (sort) {
     options.sort = { [sort]: 1 };
   } else {
@@ -75,6 +77,7 @@ router.get("/products", async (req, res) => {
     prevPage,
     limit,
     totalPages,
+    user: req.session.user,
   });
 });
 
@@ -92,12 +95,10 @@ router.get("/cart/:uid", async (req, res) => {
 });
 
 const publicAcces = (req, res, next) => {
-  console.log(req.session.user + " public");
   if (req.session.user) return res.redirect("/");
   next();
 };
 const privateAcces = (req, res, next) => {
-  console.log(req.session.user + " private");
   if (!req.session.user) return res.redirect("/login");
   next();
 };
@@ -111,7 +112,6 @@ router.get("/login", publicAcces, (req, res) => {
 });
 
 router.get("/profile", privateAcces, (req, res) => {
-  console.log(req.session.user);
   res.render("profile", {
     user: req.session.user,
   });

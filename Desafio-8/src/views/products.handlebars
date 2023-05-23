@@ -1,5 +1,10 @@
-<h1 class="text-2xl font-bold mb-4 text-center">Home PRODUCTOS</h1>
-
+<div class="flex justify-around">
+  <h1 class="text-2xl font-bold mb-4 text-center">Home PRODUCTOS</h1>
+  <p class="text-xl font-bold">Bienvenido <strong>{{user.name}}</strong> </p>
+  {{#if (isAdmin user.role)}}
+    <p class="text-red-800 font-bold"> ADMIN ACCES</p>
+  {{/if}}
+</div>
 <div
   class="flex justify-items-center place-content-center gap-10 bg-gray-400 p-4"
 >

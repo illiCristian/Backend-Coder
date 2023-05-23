@@ -17,7 +17,7 @@ form.addEventListener("submit", async (e) => {
       },
     });
     if (response.status === 200) {
-      window.location.href = "/profile";
+      window.location.href = "/products";
     }
     console.log(response);
   } catch (error) {
