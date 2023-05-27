@@ -12,8 +12,8 @@ const app = express();
 
 configureMiddlewares(app);
 configureServer(app);
-configureRoutes(app);
 configureHandlebars(app);
+configureRoutes(app);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

@@ -14,7 +14,7 @@ router.post("/failregister", async (req, res) => {
   res.send({ error: " Error en el rgistro" })
 })
 
-router.post("/login", passport.authenticate("login", { failureRedirect: "/faillogin" }), async (req, res) => {
+/* router.post("/login", passport.authenticate("login", { failureRedirect: "/faillogin" }), async (req, res) => {
 
   if (!req.user) return res.status(400).send({ status: "error", error: "Invalid credentials" });
   console.log(req.user);
@@ -28,7 +28,26 @@ router.post("/login", passport.authenticate("login", { failureRedirect: "/faillo
 
   const accessToken = generateToken(req.user);
   res.send({ status: "success", payload: req.user, message: "Primer logueo!!", token: accessToken });
-})
+}) */
+router.post("/login", (req, res, next) => {
+  passport.authenticate("login", (err, user) => {
+    if (err) {
+      return res.status(500).json({ message: "Error de autenticación" });
+    }
+    if (!user) {
+      return res.status(401).json({ message: "Credenciales inválidas" });
+    }
+
+    req.login(user, { session: false }, (error) => {
+      if (error) {
+        return res.status(500).json({ message: "Error de autenticación" });
+      }
+
+      const accessToken = generateToken(user);
+      return res.json({ token: accessToken });
+    });
+  })(req, res, next);
+});
 
 router.get("/faillogin", async (req, res) => {
 

@@ -4,7 +4,7 @@ import __dirname, { readJSON } from "../utils.js";
 
 export default function configureHandlebars(app) {
   const hbs = handlebars.create({
-    partialsDir: path.join(app.get("views"), "partials"),
+    partialsDir: path.join(path.join(__dirname), "/views/partials"),
     helpers: {
       readJSON: readJSON,
       isAdmin: function (role) {

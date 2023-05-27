@@ -31,8 +31,8 @@ const initializePassport = () => {
           age,
           password: createHash(password)
         }
-        const accessToken = generateToken(user)
         const result = await userModel.create(newUser);
+        const accessToken = generateToken(result)
         return done(null, result);
       } catch (error) {
         return done("Error al registrar el usuario: " + error);
