@@ -9,6 +9,9 @@ Repositorio creado con todos los contenidos vistos y aprendidos en el curso de B
 - WebSockets
 - Mongo Db
 - Mongoose
+- Cookies, Sessions & Storages
+- Jwt
+- Passport
 
 ## 🚀 About Me
 
