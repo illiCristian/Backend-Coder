@@ -50,7 +50,7 @@ router.get("/faillogin", async (req, res) => {
   console.log("Fallo en el ingreso");
   res.send({ error: "Error en el ingreso" });
 });
-router.get("/current", authToken, (req, res) => {
+router.get("/current", (req, res) => {
   res.send({ status: "success", payload: req.user });
 });
 
