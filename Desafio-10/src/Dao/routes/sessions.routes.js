@@ -1,7 +1,8 @@
 import { Router } from "express";
 import userModel from "../models/User.model.js";
-import { authToken, createHash, generateToken } from "../../utils.js";
+import { generateToken } from "../../middlewares/validateToken.js";
 import passport from "passport";
+import { createHash } from "../../utils.js";
 const router = Router();
 export const users = userModel.find().lean();
 
@@ -35,13 +36,16 @@ router.post(
       id: req.user._id,
       cart: req.user.cart,
     };
-
-    const accessToken = generateToken(req.user);
+    const token = await generateToken({
+      id: req.user._id,
+    });
+    res.cookie("token", token);
+    console.log(token);
     res.send({
       status: "success",
       payload: req.user,
       message: "Primer logueo!!",
-      token: accessToken,
+      token: token,
     });
   }
 );
