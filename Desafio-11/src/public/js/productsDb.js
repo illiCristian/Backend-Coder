@@ -40,7 +40,6 @@ form.addEventListener("submit", function (e) {
 
 //Borrar producto por id
 const deleteForm = document.getElementById("productdeleteForm");
-
 deleteForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const id = deleteForm.elements.id.value;

@@ -1,13 +1,15 @@
+import { generateToken } from "../../middlewares/validateToken.js";
 import userModel from "../models/User.model.js";
-
+import passport from "passport";
+import { createHash } from "../../utils.js";
 export default class UserController {
-  register = async (req, res) => {
+  registerView = async (req, res) => {
     res.render("register");
   };
-  login = async (req, res) => {
+  loginView = async (req, res) => {
     res.render("login");
   };
-  profile = async (req, res) => {
+  profileView = async (req, res) => {
     res.render("profile", {
       user: req.session.user,
     });
@@ -28,5 +30,89 @@ export default class UserController {
       console.error(error);
       res.status(500).send("Error al obtener los usuarios");
     }
+  };
+  register = () => {
+    passport.authenticate("register", { failureRedirect: "/failregister" }),
+      async (req, res) => {
+        res.status(200).send({
+          status: "success",
+          payload: req.user,
+        });
+      };
+  };
+  failregister = (req, res) => {
+    console.log("Fallo al registrarse ");
+    res.send({ error: " Error en el rgistro" });
+  };
+  login = async (req, res) => {
+    if (!req.user)
+      return res
+        .status(400)
+        .send({ status: "error", error: "Invalid credentials" });
+    console.log(req.user);
+    req.session.user = {
+      name: req.user.first_name,
+      last_name: req.user.last_name,
+      age: req.user.age,
+      email: req.user.email,
+      role: req.user.role,
+      id: req.user._id,
+      cart: req.user.cart,
+    };
+    console.log(req.session.user + " en session routes");
+    const token = await generateToken({
+      id: req.user._id,
+    });
+    res.cookie("token", token);
+    console.log(token);
+    res.send({
+      status: "success",
+      payload: req.user,
+      message: "Primer logueo!!",
+      token: token,
+    });
+  };
+  logout = (req, res) => {
+    req.session.destroy((err) => {
+      if (err)
+        return res
+          .status(500)
+          .send({ status: "error", error: "No pudo cerrar sesion" });
+      res.redirect("/login");
+    });
+  };
+  faillogin = (req, res) => {
+    console.log("Fallo en el ingreso");
+    res.send({ error: "Error en el ingreso" });
+  };
+  current = (req, res) => {
+    res.send({ status: "success", payload: req.user });
+  };
+  resetpassword = async (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password)
+      return res
+        .status(400)
+        .send({ status: "error", error: "Datos incorrectos" });
+
+    const user = await userModel.findOne({ email });
+    if (!user)
+      return res
+        .status(400)
+        .send({ status: "error", error: "Datos incorrectos" });
+
+    const newHashedPassword = createHash(password);
+
+    await userModel.updateOne(
+      { _id: user._id },
+      { $set: { password: newHashedPassword } }
+    );
+
+    res.send({ status: "success", message: "Contraseña actualizada" });
+  };
+  githubCallback = async (req, res) => {
+    req.session.user = req.user;
+    res.redirect("/");
   };
 }

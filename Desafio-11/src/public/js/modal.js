@@ -21,7 +21,9 @@ function openModal(btn) {
       >Agregar al carrito</button>
       <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
         onclick="closeModal()"
-      >Cerrar</button></div>
+      >Cerrar</button>
+      
+      </div>
     `;
     });
 }
@@ -34,7 +36,9 @@ async function addToCart(id, req) {
       },
     });
     console.log(result);
+    alert("Producto agregado al carrito");
   } catch (error) {
+    alert("Error al agregar al carrito");
     console.log(error);
   }
 }

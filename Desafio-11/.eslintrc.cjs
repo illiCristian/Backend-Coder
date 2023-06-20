@@ -3,6 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
     node: true,
+    javascript: true,
   },
   extends: "eslint:recommended",
   overrides: [],
@@ -11,7 +12,6 @@ module.exports = {
     sourceType: "module",
   },
   rules: {
-    indent: ["error", 2],
     quotes: ["error", "double"],
   },
 };

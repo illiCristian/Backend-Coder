@@ -3,6 +3,7 @@ import local from "passport-local";
 import userModel from "../Dao/models/User.model.js";
 import { createHash, validatePassword } from "../utils.js";
 import GithubStrategy from "passport-github2";
+import cartModel from "../Dao/models/cart.js";
 const LocalStrategy = local.Strategy;
 
 const initializePassport = () => {
@@ -19,8 +20,9 @@ const initializePassport = () => {
     new LocalStrategy(
       { passReqToCallback: true, usernameField: "email" },
       async (req, username, password, done) => {
-        const { first_name, last_name, email, age } = req.body;
+        const { first_name, last_name, email, age, role } = req.body;
         try {
+          const newCart = await cartModel.create({});
           const user = await userModel.findOne({ email: username }).exec();
           if (user) {
             console.log("El usuario existe");
@@ -31,6 +33,8 @@ const initializePassport = () => {
             last_name,
             email,
             age,
+            cart: newCart._id,
+            role,
             password: createHash(password),
           };
           const result = await userModel.create(newUser);

@@ -1,6 +1,7 @@
 import configureServerSocket from "../Dao/socketConfig/socketConfig.js";
+import config from "./config.js";
 
-const PORT = process.env.PORT || 8080;
+const PORT = config.server.port;
 
 function configureServer(app) {
   /*  const server = http.createServer(app); */

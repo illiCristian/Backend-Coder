@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 let db = null; // Variable para almacenar la conexión
-
+import config from "../config/config.js";
 (async () => {
   try {
     if (db) {
@@ -10,9 +10,7 @@ let db = null; // Variable para almacenar la conexión
       return db;
     } else {
       // Si la conexión no existe, conectarse y almacenar la conexión en la variable
-      db = await mongoose.connect(
-        "mongodb+srv://svrk73:qeS9S9bZ4oHZQuIb@cluster0.6jukxnz.mongodb.net/?retryWrites=true&w=majority"
-      );
+      db = await mongoose.connect(config.mongo.url);
       console.log("Conectado a la base de datos");
       return db;
     }

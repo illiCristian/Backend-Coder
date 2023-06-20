@@ -30,9 +30,9 @@ router.get("/chat", chatController.renderChat);
 router.get("/cart", cartController.getCart);
 
 /* User */
-router.get("/register", publicAcces, userController.register);
-router.get("/login", publicAcces, userController.login);
-router.get("/profile", privateAcces, userController.profile);
+router.get("/register", publicAcces, userController.registerView);
+router.get("/login", publicAcces, userController.loginView);
+router.get("/profile", privateAcces, userController.profileView);
 router.get("/resetpassword", publicAcces, userController.resetPassword);
 router.get("/admin", privateAcces, adminAcces, userController.admin);
 export default router;
