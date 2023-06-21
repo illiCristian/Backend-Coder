@@ -4,6 +4,7 @@ import userModel from "../Dao/models/User.model.js";
 import { createHash, validatePassword } from "../utils.js";
 import GithubStrategy from "passport-github2";
 import cartModel from "../Dao/models/cart.js";
+import config from "../config/config.js";
 const LocalStrategy = local.Strategy;
 
 const initializePassport = () => {
@@ -71,8 +72,8 @@ const initializePassport = () => {
     "github",
     new GithubStrategy(
       {
-        clientID: "Iv1.45dc0b160a891d61",
-        clientSecret: "d8316b1e198b8d64716534fdb2d06faefd4617a9",
+        clientID: config.github.clientId,
+        clientSecret: config.github.clientSecret,
         callbackURL: "http://localhost:8080/api/session/githubcallback",
         scope: ["user:email"],
       },

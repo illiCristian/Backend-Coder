@@ -60,7 +60,7 @@ export default class CartController {
   };
   createCartAddProduct = async (req, res) => {
     const { pid } = req.params;
-    const user = req.session.user;
+    const user = req.session?.user;
     try {
       const resPonse = await cartManagerDb.createCartAddProductDB(pid, user);
       res.status(200).json(resPonse);
@@ -72,7 +72,7 @@ export default class CartController {
     }
   };
   addProductInCart = async (req, res) => {
-    const cartId = req.session.user.cart;
+    const cartId = req.session?.user?.cart;
     console.log(cartId);
     const productId = req.params.pid;
     try {
