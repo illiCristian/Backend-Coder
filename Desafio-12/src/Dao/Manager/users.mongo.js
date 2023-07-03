@@ -38,5 +38,50 @@ class UserMongo {
       return false;
     }
   };
+  login = async (username) => {
+    try {
+      const user = await userModel.findOne({ email: username }).exec();
+      if (!user) {
+        console.log("No existe el usuario");
+        return false;
+      }
+      return user;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  findUserByEmail = async (email) => {
+    try {
+      const user = await userModel.findOne({ email: email }).exec();
+      if (!user) {
+        console.log("No existe el usuario");
+        return false;
+      }
+      return user;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  findUserById = async (id) => {
+    try {
+      const user = await userModel.findById(id).exec();
+      if (!user) {
+        console.log("No existe el usuario");
+        return false;
+      }
+      return user;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  createUser = async (user) => {
+    try {
+      const result = await userModel.create(user);
+      if (!result) return false;
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
 export default UserMongo;

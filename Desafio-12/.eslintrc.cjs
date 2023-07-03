@@ -1,9 +1,8 @@
 module.exports = {
   env: {
+    node: true,
     browser: true,
     es2021: true,
-    node: true,
-    javascript: true,
   },
   extends: "eslint:recommended",
   overrides: [],
@@ -12,6 +11,8 @@ module.exports = {
     sourceType: "module",
   },
   rules: {
+    indent: ["error", 2, { SwitchCase: 1 }],
     quotes: ["error", "double"],
+    semi: ["error", "always"],
   },
 };

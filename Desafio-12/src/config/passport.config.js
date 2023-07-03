@@ -1,9 +1,7 @@
 import passport from "passport";
 import local from "passport-local";
-import userModel from "../Dao/models/user.js";
-import { createHash, validatePassword } from "../utils.js";
+import { validatePassword } from "../utils.js";
 import GithubStrategy from "passport-github2";
-import cartModel from "../Dao/models/cart.js";
 import config from "../config/config.js";
 import UserMongo from "../Dao/Manager/users.mongo.js";
 const LocalStrategy = local.Strategy;
@@ -14,7 +12,7 @@ const initializePassport = () => {
     done(null, user.id);
   });
   passport.deserializeUser(async (id, done) => {
-    const user = await userModel.findById(id);
+    const user = await userMongo.findUserById(id);
     done(null, user);
   });
 
@@ -48,8 +46,7 @@ const initializePassport = () => {
       { usernameField: "email" },
       async (username, password, done) => {
         try {
-          const user = await userModel.findOne({ email: username }).exec();
-          //console.log(user);
+          const user = await userMongo.login(username);
           if (!user) {
             console.log("No existe el usuario");
             return done(null, false);
@@ -76,7 +73,7 @@ const initializePassport = () => {
         try {
           console.log(profile);
           const email = profile.emails[0].value;
-          const user = await userModel.findOne({ email }).exec();
+          const user = await userMongo.findUserByEmail(email);
           if (!user) {
             const newUser = {
               first_name: profile._json.name,
@@ -85,7 +82,7 @@ const initializePassport = () => {
               age: 18,
               password: "",
             };
-            const result = await userModel.create(newUser);
+            const result = await userMongo.createUser(newUser);
             done(null, result);
           } else {
             done(null, user);

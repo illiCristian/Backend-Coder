@@ -1,9 +1,7 @@
 import { Router } from "express";
-import userModel from "../Dao/models/user.js";
 import passport from "passport";
 import UserController from "../controllers/user.controller.js";
 const router = Router();
-export const users = userModel.find().lean();
 const userController = new UserController();
 
 router.post(
