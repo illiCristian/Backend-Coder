@@ -1,6 +1,10 @@
 import CartMongo from "../Dao/Manager/cart.mongo.js";
-
+import { v4 as uuidv4 } from "uuid";
+import TicketMongo from "../Dao/Manager/ticket.mongo.js";
+import ProductsMongo from "../Dao/Manager/products.mongo.js";
 const cartMongo = new CartMongo();
+const ticketMongo = new TicketMongo();
+const productMongo = new ProductsMongo();
 export default class CartController {
   //obtener un carrito y mostrar sus productos
   //Esta funcion deberia llamarse getCartSession pero cuando cambio el nombre da error
@@ -10,6 +14,7 @@ export default class CartController {
     console.log(cartId + " carritoID");
     try {
       const cart = await cartMongo.getCartById(cartId);
+      console.log(cart);
       if (cart) {
         res.render("cart", { title: "Carrito", cart });
       } else {
@@ -57,7 +62,7 @@ export default class CartController {
     const { pid } = req.params;
     const user = req.session?.user;
     try {
-      const resPonse = cartMongo.createCartAddProduct(pid, user);
+      const resPonse = await cartMongo.createCartAddProduct(pid, user);
       res.status(200).json(resPonse);
     } catch (error) {
       res.status(500).json({
@@ -85,8 +90,9 @@ export default class CartController {
   };
   deleteProductInCart = async (req, res) => {
     const cartId = req.params.cid;
+    const productId = req.params.pid;
     try {
-      const response = await cartMongo.deleteProductsInCart(cartId);
+      const response = await cartMongo.deleteProductsInCart(cartId, productId);
       res.status(200).json(response);
     } catch (error) {
       res
@@ -123,5 +129,40 @@ export default class CartController {
         .status(500)
         .json({ error: error.message, errorType: "Error en el servidor" });
     }
+  };
+  purchase = async (req, res) => {
+    //const cartId = req.session?.user?.cart;
+    const cartId = req.params.cid;
+    const cart = await cartMongo.getCartById(cartId);
+    if (!cart)
+      return res.status(404).send({ message: "Carrito no encontrado" });
+    const userEmail = req.session?.user?.email;
+    const ticketProducts = [];
+    const rejectedProducts = [];
+    const { products } = cart;
+    let totalAmount = 0;
+    products.forEach((el) => {
+      if (el.quantity <= el.product.stock) {
+        ticketProducts.push({ _id: el.product._id, quantity: el.quantity });
+        totalAmount += el.product.price * el.quantity;
+        cartMongo.deleteProductsInCart(cartId, el.product._id);
+        productMongo.updateStock(
+          el.product._id,
+          el.product.stock - el.quantity
+        );
+      } else {
+        rejectedProducts.push(el.product._id);
+      }
+    });
+    const newTicket = {
+      code: uuidv4(),
+      amount: totalAmount,
+      purcharser: userEmail,
+      products: ticketProducts,
+    };
+    const ticket = await ticketMongo.createTicket(newTicket);
+    console.log(ticket);
+
+    res.status(200).json(cart);
   };
 }

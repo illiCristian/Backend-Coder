@@ -1,6 +1,7 @@
 import { Router } from "express";
 import passport from "passport";
 import UserController from "../controllers/user.controller.js";
+import { privateAcces } from "../middlewares/userMiddleware.js";
 const router = Router();
 const userController = new UserController();
 
@@ -19,7 +20,7 @@ router.post(
 
 router.get("/faillogin", userController.faillogin);
 
-router.get("/current", userController.current);
+router.get("/current", privateAcces, userController.current);
 
 router.get("/logout", userController.logout);
 

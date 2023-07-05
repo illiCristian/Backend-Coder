@@ -19,13 +19,13 @@ router.post("/:pid", privateAcces, cartController.addProductInCart);
 
 //Agregar un producto al carrito
 //http://localhost:8080/api/cartsDb/64569e3b76205486b61f1375/product/64554737aa6dcf46b903dd2e test funcionando
-router.post("/:cid/product/:pid");
+router.post("/:cid/product/:pid", privateAcces);
 //Borrar un producto del carrito
 //http://localhost:8080/api/cartsDb/64569e3b76205486b61f1375/product/64554737aa6dcf46b903dd2e test funcionando
 router.delete(
   "/:cid/product/:pid",
   privateAcces,
-  cartController.addProductInCart
+  cartController.deleteProductInCart
 );
 //Borrar todos los productos de un carrito
 //test http://localhost:8080/api/cartsDb/645ed1db2e52f26544127978
@@ -61,4 +61,6 @@ router.put(
 //resultado: muestra el carrito con los productos actualizados
 
 router.put("/:cid", privateAcces, cartController.updateCart);
+router.get("/:cid/purchase", privateAcces, cartController.purchase);
+
 export default router;

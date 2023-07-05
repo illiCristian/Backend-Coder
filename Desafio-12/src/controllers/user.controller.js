@@ -55,7 +55,7 @@ export default class UserController {
         .send({ status: "error", error: "Invalid credentials" });
     console.log(req.user);
     req.session.user = {
-      first_name: req.user.first_name,
+      name: req.user.first_name,
       last_name: req.user.last_name,
       age: req.user.age,
       email: req.user.email,
@@ -90,10 +90,9 @@ export default class UserController {
     res.send({ error: "Error en el ingreso" });
   };
   current = (req, res) => {
-    let { first_name, last_name, email, age } = req.session.user;
+    let { first_name, last_name, email, age, cart } = req.session.user;
     console.log(req.session.user.name);
-    const user = new GetUserDto({ first_name, last_name, email, age });
-    console.log(user);
+    const user = new GetUserDto({ first_name, last_name, email, age, cart });
     res.send({ status: "success", payload: user });
   };
   resetpassword = async (req, res) => {

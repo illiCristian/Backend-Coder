@@ -40,12 +40,31 @@ class ProductsMongo {
       console.log(error);
     }
   }
+  async updateStock(id, newStock) {
+    try {
+      const productDb = await productModel.findById(id);
+      productDb.stock = newStock;
+      const res = await productDb.save();
+      if (!res) return null;
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  }
   async deleteProductId(id) {
     try {
       const result = await productModel.findByIdAndDelete(id);
       return result;
     } catch (error) {
       throw new Error(error);
+    }
+  }
+  async stockHandler(product) {
+    try {
+      const result = await productModel.findByIdAndUpdate(product._id, product);
+      return result;
+    } catch (error) {
+      console.log(error);
     }
   }
 }

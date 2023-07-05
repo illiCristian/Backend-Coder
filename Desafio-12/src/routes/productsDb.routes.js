@@ -9,7 +9,7 @@ router.get("/", productController.getAllProducts);
 router.get(
   "/products",
   privateAcces,
-  adminAcces,
+  //adminacces
   productController.getProducts
 );
 router.get("/:id", productController.getProductById);

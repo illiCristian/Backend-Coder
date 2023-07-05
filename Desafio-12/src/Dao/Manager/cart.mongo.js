@@ -12,10 +12,10 @@ class CartMongo {
         .findById(cartId)
         .populate("products.product")
         .lean();
-      console.log(result + "null?=");
-      if (result) return result;
+      return result;
     } catch (error) {
       console.log(error);
+      return null;
     }
   }
   async getCarts() {
