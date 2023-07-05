@@ -1,10 +1,31 @@
 const socket = io();
-let user;
+let user = "desconocido";
+fetch("/api/session/current").then((res) => {
+  res.json().then((data) => {
+    user = data.payload.first_name;
+    console.log(user);
+    Swal.fire({
+      //title: "<strong>HTML <u>example</u></strong>",
+      icon: "info",
+      html: `Te identificaste como ${user}`,
+      showCloseButton: true,
+      focusConfirm: false,
+      confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',
+      confirmButtonAriaLabel: "Thumbs up, great!",
+      cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
+      cancelButtonAriaLabel: "Thumbs down",
+    });
+    socket.emit("authenticated", usuario);
+  });
+});
+console.log(user);
 let front = "desconocido";
 let usuario = "desconocido";
 const chatbox = document.getElementById("chatbox");
+if (user !== "desconocido") {
+}
 
-Swal.fire({
+/* Swal.fire({
   title: "Identifícate",
   input: "text",
   inputValidator: (value) => {
@@ -20,7 +41,7 @@ Swal.fire({
   };
 
   socket.emit("authenticated", usuario);
-});
+}); */
 
 chatbox.addEventListener("keyup", (evt) => {
   console.log(evt);

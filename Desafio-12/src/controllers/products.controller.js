@@ -36,6 +36,7 @@ export default class ProductController {
     const { id } = req.params;
     try {
       const result = await productMongo.getProductById(id);
+      if (!result) res.status(404).send({ message: "Producto no encontrado" });
       res.status(200).send(result);
     } catch (error) {
       res.status(500).send({ message: error.message });
@@ -44,6 +45,7 @@ export default class ProductController {
   //Crear un producto
   createProduct = async (req, res) => {
     try {
+      console.log(req.body);
       const {
         title,
         description,
@@ -135,6 +137,7 @@ export default class ProductController {
   productsDb = async (req, res) => {
     try {
       const result = await productModel.find();
+      if (!result) return res.status(404).send({ message: "No hay productos" });
       res.render("productsDb", {
         title: "Productos",
         products: result,
@@ -170,5 +173,14 @@ export default class ProductController {
       totalPages,
       user: req.session.user,
     });
+  };
+  getProducts = async (req, res) => {
+    try {
+      const result = await productModel.find();
+      if (!result) return res.status(404).send({ message: "No hay productos" });
+      res.status(200).json(result);
+    } catch (error) {
+      console.log(error);
+    }
   };
 }

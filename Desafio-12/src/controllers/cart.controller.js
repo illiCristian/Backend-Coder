@@ -1,44 +1,39 @@
-import CartsManagerDB from "../Dao/Manager/cartManagerDB.js";
-import cartModel from "../Dao/models/cart.js";
-const cartManagerDb = new CartsManagerDB();
+import CartMongo from "../Dao/Manager/cart.mongo.js";
+
+const cartMongo = new CartMongo();
 export default class CartController {
   //obtener un carrito y mostrar sus productos
+  //Esta funcion deberia llamarse getCartSession pero cuando cambio el nombre da error
   getCart = async (req, res) => {
     console.log(req.session.user + " session");
     const cartId = req.session?.user?.cart;
     console.log(cartId + " carritoID");
     try {
-      const cart = await cartModel
-        .findById(cartId)
-        .populate("products.product")
-        .lean();
+      const cart = await cartMongo.getCartById(cartId);
       if (cart) {
         res.render("cart", { title: "Carrito", cart });
       } else {
         res.send("No hay productos en el carrito");
       }
-      //res.render("cart", { title: "Carrito", cart });
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
   };
   getCarts = async (req, res) => {
-    async (req, res) => {
-      try {
-        const resPonse = await cartManagerDb.getCartsDB();
-        res.status(200).json(resPonse);
-      } catch (error) {
-        res.status(500).json({
-          error: error.message,
-          errorType: "error en el get del servidor",
-        });
-      }
-    };
+    try {
+      const resPonse = await cartMongo.getCarts();
+      res.status(200).json(resPonse);
+    } catch (error) {
+      res.status(500).json({
+        error: error.message,
+        errorType: "error en el get del servidor",
+      });
+    }
   };
   getCartId = async (req, res) => {
     const id = req.params.cid;
     try {
-      const cart = await cartManagerDb.getCartByIdDb(id);
+      const cart = await cartMongo.getCartById(id);
       if (!cart)
         return res.status(404).send({ error: "Carrito no encontrado" });
       res.send(cart);
@@ -49,7 +44,7 @@ export default class CartController {
   createCart = async (req, res) => {
     const cart = req.body;
     try {
-      const resPonse = await cartManagerDb.createCartDB(cart);
+      const resPonse = await cartMongo.createCart(cart);
       res.status(200).json(resPonse);
     } catch (error) {
       res.status(500).json({
@@ -62,7 +57,7 @@ export default class CartController {
     const { pid } = req.params;
     const user = req.session?.user;
     try {
-      const resPonse = await cartManagerDb.createCartAddProductDB(pid, user);
+      const resPonse = cartMongo.createCartAddProduct(pid, user);
       res.status(200).json(resPonse);
     } catch (error) {
       res.status(500).json({
@@ -76,10 +71,7 @@ export default class CartController {
     console.log(cartId);
     const productId = req.params.pid;
     try {
-      const response = await cartManagerDb.addProductInCartDB(
-        cartId,
-        productId
-      );
+      const response = await cartMongo.addProductInCartDB(cartId, productId);
       if (!response)
         return res
           .status(404)
@@ -94,7 +86,7 @@ export default class CartController {
   deleteProductInCart = async (req, res) => {
     const cartId = req.params.cid;
     try {
-      const response = await cartManagerDb.deleteProductsInCart(cartId);
+      const response = await cartMongo.deleteProductsInCart(cartId);
       res.status(200).json(response);
     } catch (error) {
       res
@@ -107,11 +99,7 @@ export default class CartController {
     const { quantity } = req.body;
     console.log(pid, cid, quantity);
     try {
-      const response = await cartManagerDb.updateProductInCart(
-        cid,
-        pid,
-        quantity
-      );
+      const response = await cartMongo.updateProductInCart(cid, pid, quantity);
       if (response === null)
         return res.status(404).send({ error: "Producto no encontrado" });
       res.status(200).json(response);
@@ -126,7 +114,7 @@ export default class CartController {
     const products = req.body;
     console.log(products);
     try {
-      const response = await cartManagerDb.updateCart(cid, products);
+      const response = await cartMongo.updateCart(cid, products);
       if (response === null)
         return res.status(404).send({ error: "Carrito no encontrado" });
       res.status(200).json(response);

@@ -13,10 +13,10 @@ const app = express();
 configureMiddlewares(app);
 configureServer(app);
 configureHandlebars(app);
+app.use(express.json()); //tiene que estar antes de las rutas 
 configureRoutes(app);
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(__dirname + "/public"));
 app.use(morgan("dev"));

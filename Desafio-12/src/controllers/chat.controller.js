@@ -1,5 +1,6 @@
 export default class ChatController {
   renderChat = (req, res) => {
-    res.render("chat", { title: "Chat" });
+    const userName = req.session?.user.first_name;
+    res.render("chat", { title: "Chat", userName });
   };
 }

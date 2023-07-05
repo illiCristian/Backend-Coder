@@ -35,8 +35,12 @@ async function addToCart(id, req) {
         "Content-Type": "application/json",
       },
     });
-    console.log(result);
-    alert("Producto agregado al carrito");
+    if (result.statusText === "Unauthorized") {
+      alert("Debes estar logueado para agregar productos al carrito");
+      window.location.href = "/login";
+    } else {
+      alert("Producto agregado al carrito");
+    }
   } catch (error) {
     alert("Error al agregar al carrito");
     console.log(error);

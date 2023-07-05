@@ -1,7 +1,7 @@
 import { generateToken } from "../middlewares/validateToken.js";
 import userModel from "../Dao/models/user.js";
-import passport from "passport";
 import { createHash } from "../utils.js";
+import { GetUserDto } from "../Dao/Dto/user.dto.js";
 export default class UserController {
   registerView = async (req, res) => {
     res.render("register");
@@ -55,7 +55,7 @@ export default class UserController {
         .send({ status: "error", error: "Invalid credentials" });
     console.log(req.user);
     req.session.user = {
-      name: req.user.first_name,
+      first_name: req.user.first_name,
       last_name: req.user.last_name,
       age: req.user.age,
       email: req.user.email,
@@ -90,7 +90,11 @@ export default class UserController {
     res.send({ error: "Error en el ingreso" });
   };
   current = (req, res) => {
-    res.send({ status: "success", payload: req.user });
+    let { first_name, last_name, email, age } = req.session.user;
+    console.log(req.session.user.name);
+    const user = new GetUserDto({ first_name, last_name, email, age });
+    console.log(user);
+    res.send({ status: "success", payload: user });
   };
   resetpassword = async (req, res) => {
     const { email, password } = req.body;

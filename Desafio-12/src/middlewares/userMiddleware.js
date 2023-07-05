@@ -3,13 +3,14 @@ export const publicAcces = (req, res, next) => {
   next();
 };
 export const privateAcces = (req, res, next) => {
-  if (!req.session.user) return res.redirect("/login");
+  if (!req.session.user)
+    return res.status(401).json({ message: "Unauthorized" });
   next();
 };
 export const adminAcces = (req, res, next) => {
   if (req.session.user.role !== "admin") {
     console.log("solo se admiten admins");
-    return res.redirect("/");
+    return res.status(401).json({ message: "Unauthorized" });
   }
   next();
 };
