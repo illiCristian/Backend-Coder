@@ -2,6 +2,7 @@ import CartMongo from "../Dao/Manager/cart.mongo.js";
 import { v4 as uuidv4 } from "uuid";
 import TicketMongo from "../Dao/Manager/ticket.mongo.js";
 import ProductsMongo from "../Dao/Manager/products.mongo.js";
+import transporter from "../config/gmailConfig.js";
 const cartMongo = new CartMongo();
 const ticketMongo = new TicketMongo();
 const productMongo = new ProductsMongo();
@@ -161,7 +162,20 @@ export default class CartController {
       products: ticketProducts,
     };
     const ticket = await ticketMongo.createTicket(newTicket);
-    console.log(ticket);
+    if (ticket) {
+      try {
+        const contenido = await transporter.sendMail({
+          from: "CodersHouse",
+          to: userEmail,
+          subject: "Compra realizada",
+          html: `
+          <h1>Compra realizada con exito!</h1> 
+          <strong>Monto total</strong>: ${totalAmount}`,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
     res.status(200).json(cart);
   };

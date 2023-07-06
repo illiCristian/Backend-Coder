@@ -23,6 +23,10 @@ const config = {
     clientId: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
   },
+  gmail: {
+    adminAccount: process.env.ADMIN_EMAIL,
+    adminPass: process.env.ADMIN_PASS,
+  },
 };
 
 export default config;
