@@ -4,6 +4,7 @@ import { validatePassword } from "../utils.js";
 import GithubStrategy from "passport-github2";
 import config from "../config/config.js";
 import UserMongo from "../Dao/Manager/users.mongo.js";
+import cartModel from "../Dao/models/cart.js";
 const LocalStrategy = local.Strategy;
 
 const userMongo = new UserMongo();
@@ -74,6 +75,7 @@ const initializePassport = () => {
           console.log(profile);
           const email = profile.emails[0].value;
           const user = await userMongo.findUserByEmail(email);
+          const newCart = await cartModel.create({});
           if (!user) {
             const newUser = {
               first_name: profile._json.name,
@@ -81,6 +83,7 @@ const initializePassport = () => {
               email: email,
               age: 18,
               password: "",
+              cart: newCart._id,
             };
             const result = await userMongo.createUser(newUser);
             done(null, result);

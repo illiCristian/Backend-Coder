@@ -155,28 +155,34 @@ export default class CartController {
         rejectedProducts.push(el.product._id);
       }
     });
-    const newTicket = {
-      code: uuidv4(),
-      amount: totalAmount,
-      purcharser: userEmail,
-      products: ticketProducts,
-    };
-    const ticket = await ticketMongo.createTicket(newTicket);
-    if (ticket) {
-      try {
-        const contenido = await transporter.sendMail({
-          from: "CodersHouse",
-          to: userEmail,
-          subject: "Compra realizada",
-          html: `
-          <h1>Compra realizada con exito!</h1> 
-          <strong>Monto total</strong>: ${totalAmount}`,
-        });
-      } catch (error) {
-        console.log(error);
+    if (totalAmount > 0) {
+      const newTicket = {
+        code: uuidv4(),
+        amount: totalAmount,
+        purcharser: userEmail,
+        products: ticketProducts,
+      };
+      const ticket = await ticketMongo.createTicket(newTicket);
+      if (ticket) {
+        try {
+          const contenido = await transporter.sendMail({
+            from: "CodersHouse",
+            to: userEmail,
+            subject: "Compra realizada",
+            html: `
+            <h1>Compra realizada con exito!</h1> 
+            <strong>Monto total</strong>: ${totalAmount}`,
+          });
+          console.log(contenido);
+        } catch (error) {
+          console.log(error);
+        }
       }
+      res
+        .status(200)
+        .json({ status: "success", message: "Compra realizada con exito!" });
+    } else {
+      res.status(400).json({ message: "No hay productos en el carrito" });
     }
-
-    res.status(200).json(cart);
   };
 }

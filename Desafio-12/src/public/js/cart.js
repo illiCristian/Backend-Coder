@@ -61,6 +61,11 @@ cartCheckout.addEventListener("click", async () => {
     const purchaseResponse = await fetch(`/api/cartsdb/${cartId}/purchase`);
     const purchaseData = await purchaseResponse.json();
     console.log(purchaseData);
+    if (purchaseData.status === "success") {
+      alert(
+        "Compra relizada con exito, recibiras un mail con los datos de la compra"
+      );
+    }
   } catch (error) {
     console.log(error);
   }
