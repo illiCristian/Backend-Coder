@@ -8,12 +8,13 @@ import configureHandlebars from "./config/handlebars.js";
 import sessionRouter from "./routes/sessions.routes.js";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
+import { errorHandler } from "./middlewares/errorHandler.js";
 const app = express();
 
 configureMiddlewares(app);
 configureServer(app);
 configureHandlebars(app);
-app.use(express.json()); //tiene que estar antes de las rutas 
+app.use(express.json()); //tiene que estar antes de las rutas
 configureRoutes(app);
 
 app.use(express.urlencoded({ extended: true }));
@@ -22,7 +23,7 @@ app.use(express.static(__dirname + "/public"));
 app.use(morgan("dev"));
 app.set("views", __dirname + "/views");
 app.use("/api/session", sessionRouter);
-
+app.use(errorHandler);
 /* Funcion creada para subir datos a la bd
 import products from "./Dao/files/arrayProductos.js";
 import productModel from "./Dao/models/products.js";

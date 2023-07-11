@@ -5,6 +5,9 @@ import GithubStrategy from "passport-github2";
 import config from "../config/config.js";
 import UserMongo from "../Dao/Manager/users.mongo.js";
 import cartModel from "../Dao/models/cart.js";
+import { CustomError } from "../services/customError.service.js";
+import { generateUserErrorInfo } from "../services/ErrorInfo.js";
+import { EError } from "../enums/Errors.js";
 const LocalStrategy = local.Strategy;
 
 const userMongo = new UserMongo();
@@ -23,6 +26,14 @@ const initializePassport = () => {
       { passReqToCallback: true, usernameField: "email" },
       async (req, username, password, done) => {
         const { first_name, last_name, email, age, role } = req.body;
+        if (!first_name || !last_name || !email) {
+          CustomError.createError({
+            name: "Error",
+            cause: "Faltan datos",
+            message: generateUserErrorInfo(req.body),
+            errorCode: EError.INVALID_JSON,
+          });
+        }
         try {
           const result = await userMongo.register(
             first_name,
@@ -47,6 +58,7 @@ const initializePassport = () => {
       { usernameField: "email" },
       async (username, password, done) => {
         try {
+         
           const user = await userMongo.login(username);
           if (!user) {
             console.log("No existe el usuario");

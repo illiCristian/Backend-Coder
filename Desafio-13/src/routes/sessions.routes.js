@@ -14,7 +14,9 @@ router.post("/failregister", userController.failregister);
 
 router.post(
   "/login",
-  passport.authenticate("login", { failureRedirect: "/faillogin" }),
+  passport.authenticate("login", {
+    failureRedirect: "/faillogin",
+  }),
   userController.login
 );
 

@@ -6,12 +6,8 @@ const router = Router();
 const productController = new ProductController();
 
 router.get("/", productController.getAllProducts);
-router.get(
-  "/products",
-  privateAcces,
-  //adminacces
-  productController.getProducts
-);
+//Ruta para obtener todos los productos sin el populate
+router.get("/products", privateAcces, productController.getProducts);
 router.get("/:id", productController.getProductById);
 router.post("/", privateAcces, adminAcces, productController.createProduct);
 router.put("/:id", privateAcces, adminAcces, productController.updateProduct);

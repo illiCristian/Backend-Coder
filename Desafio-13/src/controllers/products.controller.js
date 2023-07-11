@@ -2,6 +2,9 @@ import ProductManager from "../Dao/Manager/productManager.js";
 import ProductsMongo from "../Dao/Manager/products.mongo.js";
 import productModel from "../Dao/models/products.js";
 import { generateProduct } from "../utils.js";
+import { CustomError } from "../services/customError.service.js";
+import { generateProductErrorInfo } from "../services/ErrorInfo.js";
+import { EError } from "../enums/Errors.js";
 const manager = new ProductManager();
 const productMongo = new ProductsMongo();
 export default class ProductController {
@@ -66,6 +69,21 @@ export default class ProductController {
         !code ||
         !category
       ) {
+        CustomError.createError({
+          name: "Error",
+          cause: "Faltan datos para crear el producto",
+          message: generateProductErrorInfo(
+            title,
+            description,
+            price,
+            stock,
+            thumbnail,
+            code,
+            category,
+            status
+          ),
+          errorCode: EError.INVALID_JSON,
+        });
         return res.status(400).send({ message: "Faltan datos" });
       }
       const product = {

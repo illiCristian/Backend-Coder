@@ -1,4 +1,4 @@
-import { EError } from "../enums/EError.js";
+import { EError } from "../enums/Errors.js";
 
 export const errorHandler = (error, req, res, next) => {
   switch (error.code) {
@@ -20,3 +20,5 @@ export const errorHandler = (error, req, res, next) => {
   }
   next();
 };
+
+
