@@ -14,3 +14,12 @@ export const adminAcces = (req, res, next) => {
   }
   next();
 };
+export const rolPremiumAdminAcces = (req, res, next) => {
+  if (
+    req.session.user.role !== "admin" &&
+    req.session.user.role !== "premium"
+  ) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  next();
+};

@@ -94,6 +94,7 @@ export default class ProductController {
         code,
         category,
         status,
+        owner: req.session.user.id,
       };
 
       const result = await productMongo.createProduct(product);
@@ -134,13 +135,31 @@ export default class ProductController {
   };
   //Eliminar un producto
   deleteProduct = async (req, res) => {
-    const { id } = req.params;
     try {
-      const res = await productMongo.deleteProductId(id);
-      res.status(200).json(res);
+      const productId = req.params.id;
+      const product = await productModel.findById(productId);
+      if (product) {
+        const productOwer = JSON.parse(JSON.stringify(product.owner));
+        console.log(productOwer);
+        const userId = req.user.id;
+        console.log(userId);
+        if (
+          (req.user.role === "premium" && productOwer == userId) ||
+          req.user.role === "admin"
+        ) {
+          await productModel.findByIdAndDelete(productId);
+          return res.json({ status: "success", message: "producto eliminado" });
+        } else {
+          res.json({
+            status: "error",
+            message: "no puedes borrar este producto",
+          });
+        }
+      } else {
+        return res.json({ status: "error", message: "El producto no existe" });
+      }
     } catch (error) {
-      req.logger.error(error);
-      res.status(500).json({ message: "Error al eliminar" });
+      res.send(error.message);
     }
   };
   //Obtener todos los productos de del file

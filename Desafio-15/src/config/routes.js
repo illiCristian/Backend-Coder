@@ -7,6 +7,7 @@ import viewRouter from "../routes/views.routes.js";
 import cartRouter from "../routes/cart.router.js";
 import mockingProducts from "../routes/mocking.routes.js";
 import loggerRoute from "../routes/logger.routes.js";
+import userRouter from "../routes/user.routes.js";
 function configureRoutes(app) {
   //app.use("/realTimeProducts", realTimeProducts);
   // app.use("/api/products", productRouter);
@@ -17,5 +18,6 @@ function configureRoutes(app) {
   app.use("/api/carts", cartRouter);
   app.use("/mockingproducts", mockingProducts);
   app.use("/loggertest", loggerRoute);
+  app.use("/api/users", userRouter);
 }
 export default configureRoutes;

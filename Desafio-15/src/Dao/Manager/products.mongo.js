@@ -52,6 +52,7 @@ class ProductsMongo {
     }
   }
   async deleteProductId(id) {
+    console.log("llego aca");
     try {
       const result = await productModel.findByIdAndDelete(id);
       return result;

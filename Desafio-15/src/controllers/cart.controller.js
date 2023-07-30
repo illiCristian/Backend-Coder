@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import TicketMongo from "../Dao/Manager/ticket.mongo.js";
 import ProductsMongo from "../Dao/Manager/products.mongo.js";
 import transporter from "../config/gmailConfig.js";
+import productModel from "../Dao/models/products.js";
 const cartMongo = new CartMongo();
 const ticketMongo = new TicketMongo();
 const productMongo = new ProductsMongo();
@@ -73,6 +74,15 @@ export default class CartController {
   addProductInCart = async (req, res) => {
     const cartId = req.session?.user?.cart;
     const productId = req.params.pid;
+    const product = await productModel.findById(productId);
+    const productOwer = product.owner?.toString();
+    const reqUserId = req.user.id.toString();
+
+    if (productOwer === reqUserId) {
+      return res
+        .status(404)
+        .send({ error: "No puedes agregar este producto al carrito" });
+    }
     try {
       const response = await cartMongo.addProductInCartDB(cartId, productId);
       if (!response)
