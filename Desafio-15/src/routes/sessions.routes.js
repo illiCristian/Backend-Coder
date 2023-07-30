@@ -2,6 +2,8 @@ import { Router } from "express";
 import passport from "passport";
 import UserController from "../controllers/user.controller.js";
 import { privateAcces } from "../middlewares/userMiddleware.js";
+import { validateSchema } from "../middlewares/validateSchema.js";
+import { loginSchema } from "../schemas/auth.schema.js";
 const router = Router();
 const userController = new UserController();
 
@@ -14,6 +16,7 @@ router.post("/failregister", userController.failregister);
 
 router.post(
   "/login",
+  validateSchema(loginSchema),
   passport.authenticate("login", {
     failureRedirect: "/faillogin",
   }),
@@ -27,6 +30,8 @@ router.get("/current", privateAcces, userController.current);
 router.get("/logout", userController.logout);
 
 router.post("/resetpassword", userController.resetPassword);
+
+router.post("/forgotpassword", userController.forgotPassword);
 
 router.get("/github", passport.authenticate("github"), async (req, res) => {});
 

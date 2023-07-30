@@ -2,12 +2,17 @@ import jwt from "jsonwebtoken";
 
 const PRIVATE_KEY = "my-secret-key";
 
-export const generateToken = (user) => {
+export const generateToken = (user, expires) => {
   return new Promise((resolve, reject) => {
-    jwt.sign(user, PRIVATE_KEY, { expiresIn: "1d" }, (err, token) => {
-      if (err) reject(err);
-      resolve(token);
-    });
+    jwt.sign(
+      user,
+      PRIVATE_KEY,
+      { expiresIn: expires || "1d" },
+      (err, token) => {
+        if (err) reject(err);
+        resolve(token);
+      }
+    );
   });
 };
 export function authRequired(req, res, next) {

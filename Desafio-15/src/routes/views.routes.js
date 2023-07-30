@@ -33,6 +33,6 @@ router.get("/cart", cartController.getCart);
 router.get("/register", publicAcces, userController.registerView);
 router.get("/login", publicAcces, userController.loginView);
 router.get("/profile", privateAcces, userController.profileView);
-router.get("/resetpassword", publicAcces, userController.resetPassword);
+router.get("/resetpassword", publicAcces, userController.resetPasswordView);
 router.get("/admin", privateAcces, adminAcces, userController.admin);
 export default router;

@@ -1,7 +1,14 @@
 import { generateToken } from "../middlewares/validateToken.js";
 import userModel from "../Dao/models/user.js";
-import { createHash } from "../utils.js";
+import {
+  createHash,
+  generateEmailToken,
+  isValidPassword,
+  validatePassword,
+  verifyEmailToken,
+} from "../utils.js";
 import { GetUserDto } from "../Dao/Dto/user.dto.js";
+import { sendRecoveryPass } from "../config/gmailConfig.js";
 export default class UserController {
   registerView = async (req, res) => {
     res.render("register");
@@ -14,8 +21,57 @@ export default class UserController {
       user: req.session.user,
     });
   };
+  forgotPassword = async (req, res) => {
+    try {
+      const { email } = req.body;
+      console.log(email);
+      const user = await userModel.findOne({ email });
+      if (!user) {
+        return res.status(400).json({ message: "El usuario no existe" });
+      }
+      const token = generateEmailToken(email, 60 * 60);
+      console.log(token);
+      const result = await sendRecoveryPass(email, token);
+      console.log(result);
+      res.send({ status: "success", message: "Correo enviado" });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   resetPassword = async (req, res) => {
-    res.render("resetpassword");
+    try {
+      const token = req.query.token;
+      const { email, newPassword } = req.body;
+      console.log(email, newPassword);
+      const validEmail = verifyEmailToken(token);
+      if (!validEmail) {
+        return res.send("Link no valido, reintente de nuevo");
+      }
+      const user = await userModel.findOne({ email: validEmail });
+      if (!user) {
+        throw new Error("El usuario no existe");
+      }
+      if (isValidPassword(newPassword, user)) {
+        return res.send("No puedes usar la misma contraseña.");
+      }
+      const userData = {
+        ...user._doc,
+        password: createHash(newPassword),
+      };
+      const userUpdate = await userModel.findOneAndUpdate(
+        { email: email },
+        userData
+      );
+      req.logger.info("Usuario actualizado", userUpdate);
+      res.render("login", { message: "contraseña actualizada" });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  resetPasswordView = async (req, res) => {
+    const token = req.query.token;
+    res.render("resetpassword", { token });
   };
   admin = async (req, res) => {
     try {
@@ -50,7 +106,7 @@ export default class UserController {
     res.send({ error: " Error en el rgistro" });
   };
   login = async (req, res) => {
-    req.logger.info("Usuario logueado");
+    console.log(req);
     if (!req.user)
       return res
         .status(400)
@@ -64,6 +120,7 @@ export default class UserController {
       id: req.user._id,
       cart: req.user.cart,
     };
+    req.logger.info("Usuario logueado");
     const token = await generateToken({
       id: req.user._id,
     });
@@ -87,7 +144,8 @@ export default class UserController {
   };
   faillogin = (req, res) => {
     req.logger.warn("Fallo en el ingreso");
-    res.send({ error: "Error en el ingreso" });
+    /*  res.send({ error: "Error en el ingreso" }); */
+    res.render("faillogin");
   };
   current = (req, res) => {
     let { first_name, last_name, email, age, cart } = req.session.user;

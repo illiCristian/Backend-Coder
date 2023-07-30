@@ -1,2 +1,3 @@
-Se agrego la configuracion de la base de datos
-Se instalo la dependencia mongoose
+Commander
+node app.js -mode prod
+node app.js -mode dev

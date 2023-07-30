@@ -42,6 +42,11 @@ const schema = new mongoose.Schema(
       trim: true,
       default: "https://via.placeholder.com/150",
     },
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "users",
+      default: "admin",
+    },
   },
   {
     timestamps: true,
