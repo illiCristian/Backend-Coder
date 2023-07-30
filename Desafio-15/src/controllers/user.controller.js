@@ -95,10 +95,9 @@ export default class UserController {
       });
       req.logger.info("Usuario registrado");
     } catch (error) {
-      res.status(500).json({
-        status: "error",
-        message: "Error al procesar la solicitud",
-      });
+      const errorMessage =
+        req.authInfo.message || "Hubo un error en el registro";
+      res.status(400).json({ error: errorMessage });
     }
   };
   failregister = (req, res) => {

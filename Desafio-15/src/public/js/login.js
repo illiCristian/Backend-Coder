@@ -20,7 +20,6 @@ form.addEventListener("submit", (e) => {
   })
     .then((result) => {
       if (!result.ok) {
-        console.log(result);
         errorLogin.style.display = "block";
         spinner.style.display = "none";
       }

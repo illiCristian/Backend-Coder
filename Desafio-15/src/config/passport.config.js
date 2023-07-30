@@ -44,6 +44,10 @@ const initializePassport = () => {
             password,
             username
           );
+          if (!result) {
+            const errorMessage = "El usuario ya existe en la base de datos";
+            return done(null, false, errorMessage);
+          }
           return done(null, result);
         } catch (error) {
           return done("Error al registrar el usuario: " + error);
@@ -58,7 +62,6 @@ const initializePassport = () => {
       { usernameField: "email" },
       async (username, password, done) => {
         try {
-         
           const user = await userMongo.login(username);
           if (!user) {
             console.log("No existe el usuario");

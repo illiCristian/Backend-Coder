@@ -3,13 +3,14 @@ import passport from "passport";
 import UserController from "../controllers/user.controller.js";
 import { privateAcces } from "../middlewares/userMiddleware.js";
 import { validateSchema } from "../middlewares/validateSchema.js";
-import { loginSchema } from "../schemas/auth.schema.js";
+import { loginSchema, registerSchema } from "../schemas/auth.schema.js";
 const router = Router();
 const userController = new UserController();
 
 router.post(
   "/register",
-  passport.authenticate("register", { failureRedirect: "/failregister" }),
+  validateSchema(registerSchema),
+  passport.authenticate("register"),
   userController.register
 );
 router.post("/failregister", userController.failregister);
