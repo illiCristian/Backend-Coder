@@ -70,6 +70,10 @@ class CartMongo {
       if (!productExist) {
         return null;
       }
+
+      if (productExist.stock === 0) {
+        return null;
+      }
       const cart = await this.cartModel.findOne({ _id: cid });
       const productIndex = cart.products.findIndex((p) => p.product == pid);
       if (productIndex !== -1) {

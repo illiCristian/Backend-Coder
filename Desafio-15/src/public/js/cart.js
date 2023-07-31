@@ -1,3 +1,5 @@
+const spinner = document.getElementById("spinner");
+
 function increaseQuantity(index) {
   const quantityElement = document.getElementById(`quantity${index}`);
   const currentQuantity = parseInt(quantityElement.textContent);
@@ -14,12 +16,11 @@ function decreaseQuantity(index) {
 
 const deleteButton = document.getElementById("deleteProduct");
 async function deleteProduct(productId) {
+  spinner.style.display = "block";
   try {
     const res = await fetch("/api/session/current");
     const userData = await res.json();
     const cartId = userData.payload.cart;
-    console.log(cartId);
-
     const response = await fetch(
       `/api/cartsDb/${cartId}/product/${productId}`,
       {
@@ -30,7 +31,8 @@ async function deleteProduct(productId) {
       }
     );
     const data = await response.json();
-    console.log(data);
+    spinner.style.display = "none";
+    location.reload();
   } catch (error) {
     console.log(error);
   }
@@ -53,14 +55,13 @@ async function deleteProduct(productId) {
 const cartCheckout = document.getElementById("checkout");
 cartCheckout.addEventListener("click", async () => {
   try {
+    spinner.style.display = "block";
     const response = await fetch("/api/session/current");
     const data = await response.json();
     const cartId = data.payload.cart;
-    console.log(cartId);
-
     const purchaseResponse = await fetch(`/api/cartsdb/${cartId}/purchase`);
     const purchaseData = await purchaseResponse.json();
-    console.log(purchaseData);
+    spinner.style.display = "none";
     if (purchaseData.status === "success") {
       alert(
         "Compra relizada con exito, recibiras un mail con los datos de la compra"
@@ -68,5 +69,6 @@ cartCheckout.addEventListener("click", async () => {
     }
   } catch (error) {
     console.log(error);
+    spinner.style.display = "none";
   }
 });
