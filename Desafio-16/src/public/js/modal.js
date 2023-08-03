@@ -87,3 +87,43 @@ function toggleDropdown() {
 
 // Agregar evento click al botón del dropdown
 dropdownToggleButton.addEventListener("click", toggleDropdown);
+const form = document.getElementById("contactForm");
+async function submitForm() {
+  let errorEmail = document.getElementById("errorEmail");
+  spinner.style.display = "block";
+  const obj = {};
+  const data = new FormData(form);
+  data.forEach((value, key) => (obj[key] = value));
+  console.log(data);
+  try {
+    const result = await fetch("/api/users/contact", {
+      method: "POST",
+      body: JSON.stringify(obj),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log(result);
+    if (result.status === 400) {
+      spinner.style.display = "none";
+      errorEmail.style.display = "block";
+      return;
+    }
+    if (result.status === 200) {
+      spinner.style.display = "none";
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Mail enviado correctamente!!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      form.reset();
+      errorEmail.style.display = "none";
+    }
+    spinner.style.display = "none";
+  } catch (error) {
+    console.log(error);
+    spinner.style.display = "none";
+  }
+}

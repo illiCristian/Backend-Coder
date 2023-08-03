@@ -8,7 +8,7 @@ import {
   verifyEmailToken,
 } from "../utils.js";
 import { GetUserDto } from "../Dao/Dto/user.dto.js";
-import { sendRecoveryPass } from "../config/gmailConfig.js";
+import { sendContactEmail, sendRecoveryPass } from "../config/gmailConfig.js";
 export default class UserController {
   registerView = async (req, res) => {
     res.render("register");
@@ -208,6 +208,21 @@ export default class UserController {
       res.json({
         status: "error",
         message: "hubo un error al cambiar el rol del usuario",
+      });
+    }
+  };
+  contact = async (req, res) => {
+    const { name, email, message } = req.body;
+    //aca enviaria una copia de la consulta al mail de la empresa
+    try {
+      const result = await sendContactEmail(email);
+      if (result) {
+        res.send({ status: "success" });
+      }
+    } catch (error) {
+      res.status(500).json({
+        status: "error",
+        message: error.message,
       });
     }
   };

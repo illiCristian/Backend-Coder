@@ -6,7 +6,7 @@
       <button
         id="dropdownDefaultButton"
         data-dropdown-toggle="dropdown"
-        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        class="text-black font-bold focus:ring-4 focus:outline-none focus:ring-gray-800 rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center"
         type="button"
       >Filtrar por...
         <svg
@@ -83,6 +83,7 @@
         Previous
       </a>
     {{/if}}
+
     {{#if hasNextPage}}
       <a
         href="/?page={{nextPage}}"
@@ -103,10 +104,10 @@
       </a>
     {{/if}}
   </div>
-  <div
-    class="md:px-4 md:grid md:grid-cols-2 lg:grid-cols-3 gap-5 space-y-4 md:space-y-0"
-  >
 
+  <div
+    class="md:px-4 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 space-y-4 md:space-y-0"
+  >
     {{#each products}}
       <div
         class="max-w-xs rounded-md shadow-md dark:bg-gray-900 dark:text-gray-100 border-4 h-[520px] border-gray-200 dark:border-gray-700 shadow-lg relative px-6 pt-6 pb-2 rounded-xl shadow-lg transform hover:scale-105 transition duration-500 ease-in-out mx-auto mt-2"
@@ -131,7 +132,7 @@
             <button
               onclick="openModal(this)"
               data-id="{{this.id}}"
-              class="flex items-center justify-center w-full p-3 font-semibold tracking rounded-md dark:bg-violet-400 dark:text-gray-900"
+              class="flex items-center justify-center w-full p-3 font-semibold tracking rounded-md bg-violet-400 dark:text-gray-900"
             ><span class="mr-2"><i class="fa-solid fa-cart-shopping"></i></span>
               Add to cart</button>
           </div>
@@ -204,8 +205,74 @@
       class="w-16 h-16 border-4 border-dashed rounded-full animate-spin dark:border-violet-400"
     ></div>
   </div>
-</div>
 
+</div>
+<footer class="bg-gray-400 py-6 mt-2">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col sm:flex-row sm:justify-between">
+      <div class="text-white mb-4 sm:mb-0 sm:max-w-sm">
+        <p class="text-3xl text-black font-bold font-sans italic">Contactenos
+          Ahora</p>
+        <p class="text-lg text-black font-semibold italic mt-4">Rellene el
+          siguiente formulario para ponerse en contacto con nosotros.
+          <br />Estamos a su disposición para responder a cualquier pregunta o
+          prestarle la asistencia que necesite.
+          <br />
+          Valoramos sus comentarios y esperamos tener noticias suyas.</p>
+      </div>
+      <div class="text-white sm:w-1/2 sm:pl-4">
+
+        <form id="contactForm" class="space-y-4">
+          <div>
+            <label
+              for="name"
+              class="block text-sm font-medium text-black"
+            >Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:ring focus:ring-opacity-50"
+            />
+          </div>
+          <div>
+            <label
+              for="email"
+              class="block text-sm font-medium text-black"
+            >Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:ring focus:ring-opacity-50"
+            />
+          </div>
+          <div>
+            <label
+              for="message"
+              class="block text-sm font-medium text-black"
+            >Message</label>
+            <textarea
+              id="message"
+              name="message"
+              required
+              rows="4"
+              class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:ring focus:ring-opacity-50"
+            ></textarea>
+          </div>
+          <div class="flex justify-end">
+            <button
+              type="button"
+              class="text-gray-200 bg-gray-800 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 w-[130px]"
+            >Send</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</footer>
 <script
   src="https://kit.fontawesome.com/4061d47edd.js"
   crossorigin="anonymous"

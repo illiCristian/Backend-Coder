@@ -15,3 +15,9 @@ export const loginSchema = z.object({
     message: "Password must be at least 6 characters",
   }),
 });
+
+export const contactSchema = z.object({
+  name: z.string({ required_error: "Name is required" }).optional(),
+  email: z.string({ required_error: "Email is required" }).email(),
+  message: z.string({ required_error: "Message is required" }).optional(),
+});

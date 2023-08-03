@@ -40,4 +40,24 @@ export const sendRecoveryPass = async (userEmail, token) => {
   }
 };
 
+export const sendContactEmail = async (userEmail) => {
+  try {
+    const res = await transporter.sendMail({
+      from: adminEmail,
+      to: userEmail,
+      subject: "Contacto",
+      html: `
+        <div>
+        <h2>Has solicitado un contacto  .</h2>
+        <p>Uno de nuestros representastes le contactara en breve</p>
+        <p>Gracias por confiar en nosotros</p>      
+        </div>
+        `,
+    });
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export default transporter;
