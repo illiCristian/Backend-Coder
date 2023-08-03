@@ -1,0 +1,134 @@
+[
+	{
+		"title": "Campera",
+		"description": "Remera lisa",
+		"price": 290,
+		"thumbnail": "direccion de la imagen",
+		"code": "5113212",
+		"stock": 31,
+		"category": "remeras",
+		"status": true,
+		"id": 11
+	},
+	{
+		"title": "Producto nuevo agregado",
+		"description": "Remera lisa",
+		"price": 290,
+		"thumbnail": "direccion de la imagen",
+		"code": "511312",
+		"stock": 31,
+		"category": "remeras",
+		"status": true,
+		"id": 12
+	},
+	{
+		"title": "asd",
+		"description": "2qwe",
+		"price": "12",
+		"thumbnail": "123",
+		"code": "aweq12",
+		"stock": "334",
+		"category": "qweq",
+		"status": true,
+		"id": 13
+	},
+	{
+		"title": "Remera nueva",
+		"description": "remera",
+		"price": "1500",
+		"thumbnail": "direccion de la remera",
+		"code": "123asd",
+		"stock": "20",
+		"category": "Remera",
+		"status": true,
+		"id": 14
+	},
+	{
+		"title": "Chaleco",
+		"description": "nuevo chaleco",
+		"price": "1500",
+		"thumbnail": "direccion del chaleco",
+		"code": "as123",
+		"stock": "9",
+		"category": "chalecos",
+		"status": true,
+		"id": 15
+	},
+	{
+		"title": "Pantalon",
+		"description": "pantalon basico",
+		"price": "1200",
+		"thumbnail": "asd",
+		"code": "1200",
+		"stock": "12",
+		"category": "pantalones",
+		"status": true,
+		"id": 16
+	},
+	{
+		"title": "Pantalon",
+		"description": "pantalon rojo",
+		"price": "200",
+		"thumbnail": "fasd",
+		"code": "3001",
+		"stock": "2",
+		"category": "pantalones",
+		"status": true,
+		"id": 17
+	},
+	{
+		"title": "Ropa clara",
+		"description": "20 ropa",
+		"price": "300",
+		"thumbnail": "asd",
+		"code": "asdq12231",
+		"stock": "2",
+		"category": "ropa",
+		"status": true,
+		"id": 18
+	},
+	{
+		"title": "pantalon 2",
+		"description": "pantalon nuevo jean",
+		"price": "2300",
+		"thumbnail": "no tengo",
+		"code": "3asd",
+		"stock": "20",
+		"category": "pantalones",
+		"status": true,
+		"id": 19
+	},
+	{
+		"title": "asd",
+		"description": "asd",
+		"price": "12",
+		"thumbnail": "qwe",
+		"code": "13as",
+		"stock": "12",
+		"category": "qwe",
+		"status": true,
+		"id": 20
+	},
+	{
+		"title": "1213nueva ",
+		"description": "hola",
+		"price": "123",
+		"thumbnail": "nueva ",
+		"code": "asdl",
+		"stock": "11",
+		"category": "nueva ",
+		"status": true,
+		"id": 21
+	},
+	{
+		"title": "producto ",
+		"description": "nuevo producto jueves",
+		"price": "431",
+		"thumbnail": "no tiene",
+		"code": "2312",
+		"stock": "210",
+		"category": "generico",
+		"status": true,
+		"id": 22
+	}
+]
