@@ -1,0 +1,62 @@
+paths:
+  /api/productsDatabase/:
+    get:
+      summary: "Obtener todos los productos"
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Products"
+        "400":
+          description: Bad request
+    post:
+      summary: "Crear un nuevo producto"
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                $ref: "#/components/schemas/Products"
+        "400":
+          description: Bad request
+
+components:
+  schemas:
+    Products:
+      types: object
+      properties:
+        title:
+          type: string
+          description: Titulo
+        description:
+          type: string
+          description: Descripcion
+        price:
+          type: number
+          description: Precio
+        code:
+          type: string
+          description: Código
+        status:
+          type: boolean
+          description: Estado
+        thumbnail:
+          type: string
+          description: Imagen
+        category:
+          type: string
+          description: Categoría
+        owner:
+          type: ObjectId
+          description: Propietario
