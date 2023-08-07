@@ -2,6 +2,7 @@ import passport from "passport";
 import local from "passport-local";
 import { validatePassword } from "../utils.js";
 import GithubStrategy from "passport-github2";
+import GoogleStrategy from "passport-google-oauth20";
 import config from "../config/config.js";
 import UserMongo from "../Dao/Manager/users.mongo.js";
 import cartModel from "../Dao/models/cart.js";
@@ -19,7 +20,7 @@ const initializePassport = () => {
     const user = await userMongo.findUserById(id);
     done(null, user);
   });
-
+ 
   passport.use(
     "register",
     new LocalStrategy(
@@ -77,12 +78,48 @@ const initializePassport = () => {
   );
 
   passport.use(
+    "google",
+    new GoogleStrategy(
+      {
+        clientID: config.google.clientId,
+        clientSecret: config.google.clientSecret,
+        callbackURL: "/api/session/googlecallback",
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        console.log(profile);
+        try {
+          console.log(profile);
+          const email = profile.emails[0].value;
+          const user = await userMongo.findUserByEmail(email);
+          const newCart = await cartModel.create({});
+          if (!user) {
+            const newUser = {
+              first_name: profile.displayName,
+              last_name: "",
+              email: email,
+              age: 18,
+              password: "",
+              cart: newCart._id,
+            };
+            const result = await userMongo.createUser(newUser);
+            done(null, result);
+          } else {
+            done(null, user);
+          }
+        } catch (error) {
+          return done(null, error);
+        }
+      }
+    )
+  );
+
+  passport.use(
     "github",
     new GithubStrategy(
       {
         clientID: config.github.clientId,
         clientSecret: config.github.clientSecret,
-        callbackURL: "http://localhost:8080/api/session/githubcallback",
+        callbackURL: "/api/session/githubcallback",
         scope: ["user:email"],
       },
       async (accesToken, refreshToken, profile, done) => {

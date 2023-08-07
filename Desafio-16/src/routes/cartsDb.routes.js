@@ -1,11 +1,12 @@
 import { Router } from "express";
 import CartController from "../controllers/cart.controller.js";
-import { privateAcces } from "../middlewares/userMiddleware.js";
+import { adminAcces, privateAcces } from "../middlewares/userMiddleware.js";
 const router = Router();
 //Controllers
 //const productController = new ProductController();
 
 const cartController = new CartController();
+router.get("/allCarts", adminAcces, cartController.getCarts);
 //Mostrar todos los carritos de la db
 router.get("/", cartController.getCart);
 //Obtener carrito por id
@@ -61,6 +62,7 @@ router.put(
 //resultado: muestra el carrito con los productos actualizados
 
 router.put("/:cid", privateAcces, cartController.updateCart);
+
 router.get("/:cid/purchase", privateAcces, cartController.purchase);
 
 export default router;

@@ -46,6 +46,10 @@ const config = {
     adminAccount: process.env.ADMIN_EMAIL,
     adminPass: process.env.ADMIN_PASS,
   },
+  google: {
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  },
   nodeEnv: NODE_ENV,
 };
 

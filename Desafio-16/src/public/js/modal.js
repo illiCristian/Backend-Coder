@@ -1,5 +1,6 @@
 const spinner = document.getElementById("spinner");
 const sucessMessage = document.getElementById("sucessMessage");
+
 function openModal(btn) {
   const productId = btn.dataset.id;
 
@@ -52,8 +53,13 @@ async function addToCart(id, req) {
     }
     if (result.statusText === "Unauthorized") {
       spinner.style.display = "none";
-      alert("Debes estar logueado para agregar productos al carrito");
-      window.location.href = "/login";
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Debes estar logueado para agregar al carrito",
+        footer:
+          '<a href="/login" class="underline text-lg font-bold text-gray-600 hover:text-gray-900">Ir al login?</a>',
+      });
     }
     if (result.status === 200) {
       spinner.style.display = "none";
@@ -64,15 +70,18 @@ async function addToCart(id, req) {
         showConfirmButton: false,
         timer: 1500,
       });
+      setTimeout(() => {
+        modal.style.display = "none";
+      }, 2000);
     }
   } catch (error) {
+    spinner.style.display = "none";
     alert("Error al agregar al carrito");
     console.log(error);
   }
 }
-
+const modal = document.getElementById("product-modal");
 function closeModal() {
-  const modal = document.getElementById("product-modal");
   modal.style.display = "none";
 }
 
@@ -127,3 +136,20 @@ async function submitForm() {
     spinner.style.display = "none";
   }
 }
+
+const productContainers = [...document.querySelectorAll(".product-container")];
+const nxtBtn = [...document.querySelectorAll(".nxt-btn")];
+const preBtn = [...document.querySelectorAll(".pre-btn")];
+
+productContainers.forEach((item, i) => {
+  let containerDimensions = item.getBoundingClientRect();
+  let containerWidth = containerDimensions.width;
+
+  nxtBtn[i].addEventListener("click", () => {
+    item.scrollLeft += containerWidth;
+  });
+
+  preBtn[i].addEventListener("click", () => {
+    item.scrollLeft -= containerWidth;
+  });
+});

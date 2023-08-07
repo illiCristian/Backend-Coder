@@ -3,7 +3,8 @@ let user = "desconocido";
 fetch("/api/session/current").then((res) => {
   res.json().then((data) => {
     user = data.payload.first_name;
-    console.log(user);
+    console.log("asd");
+    console.log(data);
     Swal.fire({
       //title: "<strong>HTML <u>example</u></strong>",
       icon: "info",

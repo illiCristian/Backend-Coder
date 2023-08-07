@@ -1,7 +1,7 @@
 import { Router } from "express";
 import passport from "passport";
 import UserController from "../controllers/user.controller.js";
-import { privateAcces } from "../middlewares/userMiddleware.js";
+import { isAuth, privateAcces } from "../middlewares/userMiddleware.js";
 import { validateSchema } from "../middlewares/validateSchema.js";
 import { loginSchema, registerSchema } from "../schemas/auth.schema.js";
 const router = Router();
@@ -40,5 +40,19 @@ router.get(
   "/githubcallback",
   passport.authenticate("github", { failureRedirect: "/login" }),
   userController.githubCallback
+);
+
+router.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+  }),
+  async (req, res) => {}
+);
+
+router.get(
+  "/googlecallback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  userController.googleCallback
 );
 export default router;

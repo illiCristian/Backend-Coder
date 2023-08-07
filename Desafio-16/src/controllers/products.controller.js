@@ -11,7 +11,7 @@ export default class ProductController {
   //Obtener todos los productos de la db
   getAllProducts = async (req, res) => {
     const { page = 1, limit, category, sort } = req.query;
-    const options = { page, limit: parseInt(limit) || 20, lean: true };
+    const options = { page, limit: parseInt(limit) || 10, lean: true };
     if (sort) {
       options.sort = { [sort]: 1 };
     } else {

@@ -6,6 +6,7 @@ import {
   publicAcces,
   privateAcces,
   adminAcces,
+  isAuth,
 } from "./../middlewares/userMiddleware.js";
 import UserController from "../controllers/user.controller.js";
 
@@ -23,16 +24,16 @@ router.get("/productsDb", productController.productsDb);
 router.get("/realtimeproducts", productController.realTimeProducts);
 router.get("/products", productController.productsFilter);
 
-/* Chat */
-router.get("/chat", privateAcces, chatController.renderChat);
+/* Chat. */
+router.get("/chat", publicAcces, chatController.renderChat);
 
 /* Cart */
 router.get("/cart", cartController.getCart);
 
 /* User */
-router.get("/register", publicAcces, userController.registerView);
-router.get("/login", publicAcces, userController.loginView);
+router.get("/register", isAuth, userController.registerView);
+router.get("/login", isAuth, userController.loginView);
 router.get("/profile", privateAcces, userController.profileView);
-router.get("/resetpassword", publicAcces, userController.resetPasswordView);
+router.get("/resetpassword", userController.resetPasswordView);
 router.get("/admin", privateAcces, adminAcces, userController.admin);
 export default router;

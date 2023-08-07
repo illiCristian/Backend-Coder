@@ -5,7 +5,6 @@ import "./config/database.js";
 import configureMiddlewares from "./config/middlewares.js";
 import configureRoutes from "./config/routes.js";
 import configureHandlebars from "./config/handlebars.js";
-
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import { errorHandler } from "./middlewares/errorHandler.js";
@@ -25,7 +24,5 @@ app.use(cookieParser());
 app.use(express.static(__dirname + "/public"));
 app.use(morgan("dev"));
 app.set("views", __dirname + "/views");
-
-
 
 app.use(errorHandler);

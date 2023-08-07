@@ -24,8 +24,8 @@ form.addEventListener("submit", (e) => {
     .then((json) => {
       console.log(json);
       if (json.status === "success") {
-        alert("Usuario creado con éxito");
-        window.location.replace("/login");
+        Swal.fire("Usuario registrado con exito!!");
+        window.location.replace("/");
       }
     })
     .catch((error) => {
