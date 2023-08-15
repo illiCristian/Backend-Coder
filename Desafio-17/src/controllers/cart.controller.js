@@ -27,7 +27,7 @@ export default class CartController {
   getCarts = async (req, res) => {
     try {
       const resPonse = await cartMongo.getCarts();
-      res.status(200).json(resPonse);
+      res.send({ status: "success", payload: resPonse });
     } catch (error) {
       res.status(500).json({
         error: error.message,
@@ -41,7 +41,7 @@ export default class CartController {
       const cart = await cartMongo.getCartById(id);
       if (!cart)
         return res.status(404).send({ error: "Carrito no encontrado" });
-      res.send(cart);
+      res.send({ status: "success", payload: cart });
     } catch (error) {
       res.status(500).send({ error: "Error al consultar el carrito" });
     }
@@ -62,8 +62,8 @@ export default class CartController {
     const { pid } = req.params;
     const user = req.session?.user;
     try {
-      const resPonse = await cartMongo.createCartAddProduct(pid, user);
-      res.status(200).json(resPonse);
+      const cart = await cartMongo.createCartAddProduct(pid, user);
+      res.send({ status: "success", payload: cart });
     } catch (error) {
       res.status(500).json({
         error: error.message,
@@ -89,7 +89,8 @@ export default class CartController {
         return res
           .status(404)
           .send({ error: "No se pudo agregar, producto inexistente" });
-      res.status(200).json(response);
+
+      res.send({ status: "success", payload: response });
     } catch (error) {
       res
         .status(500)
@@ -99,9 +100,10 @@ export default class CartController {
   deleteProductInCart = async (req, res) => {
     const cartId = req.params.cid;
     const productId = req.params.pid;
+
     try {
       const response = await cartMongo.deleteProductsInCart(cartId, productId);
-      res.status(200).json(response);
+      res.send({ status: "success", payload: response });
     } catch (error) {
       res
         .status(500)
@@ -109,13 +111,15 @@ export default class CartController {
     }
   };
   updateProductInCart = async (req, res) => {
+    console.log("aca llego");
     const { pid, cid } = req.params;
     const { quantity } = req.body;
     try {
       const response = await cartMongo.updateProductInCart(cid, pid, quantity);
       if (response === null)
         return res.status(404).send({ error: "Producto no encontrado" });
-      res.status(200).json(response);
+
+      res.send({ status: "success", payload: response });
     } catch (error) {
       res
         .status(500)
@@ -187,6 +191,19 @@ export default class CartController {
         .json({ status: "success", message: "Compra realizada con exito!" });
     } else {
       res.status(400).json({ message: "No hay productos en el carrito" });
+    }
+  };
+
+  deleteCart = async (req, res) => {
+    const cartId = req.params.cid;
+    try {
+      const response = await cartMongo.deleteCart(cartId);
+      res.send({ status: "success", payload: response });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ error: error.message, errorType: "Error en el servidor" });
     }
   };
 }

@@ -21,7 +21,7 @@ describe("Testing Products routes", () => {
     stock: 10,
     thumbnail: "imagen de prueba",
     code: "abc1232",
-    status: false, 
+    status: false,
   };
 
   const passwordd = "123456";
@@ -44,11 +44,9 @@ describe("Testing Products routes", () => {
       responseLogin = await requester
         .post("/api/session/login")
         .send({ email: userPremium.email, password: passwordd });
-     
     } catch (error) {
       console.log(error);
     }
-    
   });
 
   after(async function () {
@@ -56,16 +54,18 @@ describe("Testing Products routes", () => {
       await userModel.findOneAndRemove({ email: userPremium.email });
       await productModel.findOneAndRemove({ code: "abc1232" });
       await cartModel.findByIdAndDelete(newCart._id);
+      process.exit();
     } catch (error) {
       console.log(error);
     }
-    
-  }); 
+  });
 
   it("Testing prueba get products", async function () {
     const sessionCookie = responseLogin.header["set-cookie"];
     try {
-      const response = await requester.get("/api/productsDatabase/products").set("Cookie", sessionCookie);
+      const response = await requester
+        .get("/api/productsDatabase/products")
+        .set("Cookie", sessionCookie);
       expect(response.status).to.be.equal(200);
       expect(response.body).to.haveOwnProperty("status");
       expect(Array.isArray(response.body.payload)).to.deep.equal(true);
@@ -73,20 +73,44 @@ describe("Testing Products routes", () => {
       console.log(error);
     }
   });
+  it("Testing crear productos con datos faltantes debe responder 400", async function () {
+    const sessionCookie = responseLogin.header["set-cookie"];
+    try {
+      const response = await requester
+        .post("/api/productsDatabase")
+        .set("Cookie", sessionCookie)
+        .send({
+          description: "Remera Test test ",
+          price: 1001,
+          category: "remeras",
+          stock: 10,
+          thumbnail: "imagen de prueba",
+          code: "abc1232",
+          status: false,
+        });
+      expect(response.status).to.be.equal(400);
+    } catch (error) {
+      console.log(error);
+    }
+  });
 
-  it("Testing crear productos en la bd", async function () {
+  it("Testing crear productos en la bd de manera exitosa con status false", async function () {
     const sessionCookie = responseLogin.header["set-cookie"];
     try {
       const response = await requester
         .post("/api/productsDatabase")
         .set("Cookie", sessionCookie)
         .send(productTest);
+      const { _body } = response;
       expect(response.status).to.be.equal(200);
+      //Verificar que se cree con estatus false
+      expect(_body.payload.status).to.be.equal(false);
     } catch (error) {
       console.log(error);
-    
     }
-  }); 
+  });
+
+  
 });
 
 //Usuario de prueba

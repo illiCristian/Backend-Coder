@@ -13,14 +13,18 @@ router.get("/", cartController.getCart);
 //http://localhost:8080/api/cartsDb/645ed1e42e52f2654412797d
 //resultado: muestra el carrito y el producto completo que esta dentro del carrito
 router.get("/:cid", cartController.getCartId);
-//Crear un  carrito y
+//Crear un  carrito
 router.post("/", cartController.createCart);
 //Crear un  carrito y agregar un producto validado que el producto existe en la bd
 router.post("/:pid", privateAcces, cartController.addProductInCart);
 
 //Agregar un producto al carrito
 //http://localhost:8080/api/cartsDb/64569e3b76205486b61f1375/product/64554737aa6dcf46b903dd2e test funcionando
-router.post("/:cid/product/:pid", privateAcces);
+router.post(
+  "/:cid/product/:pid",
+  privateAcces,
+  cartController.addProductInCart
+);
 //Borrar un producto del carrito
 //http://localhost:8080/api/cartsDb/64569e3b76205486b61f1375/product/64554737aa6dcf46b903dd2e test funcionando
 router.delete(
@@ -29,6 +33,7 @@ router.delete(
   cartController.deleteProductInCart
 );
 //Borrar todos los productos de un carrito
+router.delete("/:cid", adminAcces, cartController.deleteCart);
 //test http://localhost:8080/api/cartsDb/645ed1db2e52f26544127978
 //resultado: muestra el carrito sin el producto que se borro en el delete
 router.delete("/:cid", privateAcces, cartController.deleteProductInCart);

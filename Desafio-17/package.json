@@ -9,7 +9,9 @@
     "start": "node src/app.js",
     "slint": "eslint .",
     "dev": "nodemon src/app.js",
-    "test4": "mocha test/products.test.js"
+    "test1": "mocha test/products.test.js",
+    "test2": "mocha test/session.test.js",
+    "test3": "mocha test/cart.test.js"
   },
   "keywords": [],
   "author": "",

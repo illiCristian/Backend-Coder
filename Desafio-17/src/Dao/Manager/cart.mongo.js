@@ -135,5 +135,14 @@ class CartMongo {
     const updatedCart = await cartExist.save();
     return updatedCart;
   };
+
+  deleteCart = async (cid) => {
+    try {
+      const result = await this.cartModel.findByIdAndDelete(cid);
+      return result;
+    } catch (error) {
+      console.log(error + "error en el delete cart");
+    }
+  };
 }
 export default CartMongo;

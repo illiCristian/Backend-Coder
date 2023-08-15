@@ -132,18 +132,19 @@ export default class UserController {
   };
   logout = (req, res) => {
     req.session.destroy((err) => {
-      if (err)
+      if (err) {
         return res
           .status(500)
           .send({ status: "error", error: "No pudo cerrar sesion" });
+      }
       res.redirect("/login");
       req.logger.info("Usuario desconectado");
     });
   };
   faillogin = (req, res) => {
-    req.logger.warn("Fallo en el ingreso");
+    // req.logger.warn("Fallo en el ingreso");
     /*  res.send({ error: "Error en el ingreso" }); */
-    res.render("faillogin");
+    res.status(401).json({ error: "Error en el ingreso" });
   };
   current = (req, res) => {
     let { first_name, last_name, email, age, cart } = req.session.user;
