@@ -1,0 +1,10 @@
+{"level":"info","message":"Usuario desconectado"}
+{"level":"info","message":"Usuario logueado"}
+{"level":"info","message":"Usuario desconectado"}
+{"level":"info","message":"Usuario logueado"}
+{"level":"info","message":"Usuario desconectado"}
+{"level":"info","message":"Usuario logueado usando github"}
+{"level":"warn","message":"!Alerta!"}
+{"level":"info","message":"Info"}
+{"level":"error","message":"Error"}
+{"level":"fatal","message":"Fatal"}

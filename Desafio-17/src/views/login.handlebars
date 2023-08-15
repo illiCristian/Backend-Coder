@@ -1,0 +1,235 @@
+{{! Spinner }}
+<div
+  style="display: none;"
+  id="spinner"
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+>
+  <div role="status" class="flex items-center justify-center h-screen">
+    <svg
+      aria-hidden="true"
+      class="inline w-16 h-16 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600 top-50 left-50"
+      viewBox="0 0 100 101"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+        fill="currentColor"
+      />
+      <path
+        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+        fill="currentFill"
+      />
+    </svg>
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+{{! <div class="max-w-lg mx-auto mt-10 border-2 shadow-lg p-5">
+  <h1 class="font-bold text-2xl text-center text-gray-900 p-4">
+    Login
+  </h1>
+  <form id="loginForm">
+    <div class="mb-6">
+      <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
+      <input name="email" type="email" id="email"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        placeholder="name@flowbite.com" required />
+    </div>
+    <div class="mb-6">
+      <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
+      <input name="password" type="password" id="password" placeholder=""
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        required />
+    </div>
+    <button type="submit"
+      class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Login</button>
+    <div id="errorLoginMessage" class="text-red-500 mt-2 font-bold text-center" style="display: none;">
+      Credenciales invalidas, intente de nuevo
+    </div>
+  </form>
+  <div class="flex">
+    <p class="font-semibold">No estas registrado?</p><a
+      class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded flex items-center w-[200px] mx-auto flex-row flex items-center justify-center"
+      href="/register"> Register</a>
+  </div>
+
+  <div class="flex items-center justify-center mt-4">
+    <button class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+      onclick="toggleForgotPassword()">
+      Forgot Password?
+    </button>
+  </div>
+  <div id="forgotPasswordContainer" class="mt-4" style="display: none;">
+    <form onsubmit="sendForgotPasswordEmail(); return false;" class="flex flex-col items-center">
+      <label for="email" class="text-gray-900 font-semibold mb-2">Email:</label>
+      <input type="email" id="emailForgot" placeholder="yoeLp@example.com" required
+        class="border border-gray-400 px-4 py-2 rounded mb-2 focus:outline-none focus:border-blue-500" />
+      <button type="submit"
+        class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+        Enviar
+      </button>
+    </form>
+  </div>
+
+  <div id="sucessMessage" class="text-green-500 mt-2 font-bold text-center" style="display: none;">
+    Email Enviado, verifica tu bandeja de entrada
+  </div>
+  <div id="errorMessage" class="text-red-500 mt-2 font-bold text-center" style="display: none;">
+    Email incorrecto, intente de nuevo
+  </div>
+</div>
+}}
+{{! <div class="flex flex-col gap-2 items-center justify-center mt-4">
+
+  <p class="font-bold text-2xl">Registrarse con Github!
+  </p>
+
+  <button
+    class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded flex items-center w-[200px] mx-auto flex-row   justify-center">
+    <svg width="60px" height="60px" viewBox="0 -3.5 256 256" xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMinYMin meet" fill="#000000" stroke="#000000">
+      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+      <g id="SVGRepo_iconCarrier">
+        <g fill="#161614">
+          <path
+            d="M127.505 0C57.095 0 0 57.085 0 127.505c0 56.336 36.534 104.13 87.196 120.99 6.372 1.18 8.712-2.766 8.712-6.134 0-3.04-.119-13.085-.173-23.739-35.473 7.713-42.958-15.044-42.958-15.044-5.8-14.738-14.157-18.656-14.157-18.656-11.568-7.914.872-7.752.872-7.752 12.804.9 19.546 13.14 19.546 13.14 11.372 19.493 29.828 13.857 37.104 10.6 1.144-8.242 4.449-13.866 8.095-17.05-28.32-3.225-58.092-14.158-58.092-63.014 0-13.92 4.981-25.295 13.138-34.224-1.324-3.212-5.688-16.18 1.235-33.743 0 0 10.707-3.427 35.073 13.07 10.17-2.826 21.078-4.242 31.914-4.29 10.836.048 21.752 1.464 31.942 4.29 24.337-16.497 35.029-13.07 35.029-13.07 6.94 17.563 2.574 30.531 1.25 33.743 8.175 8.929 13.122 20.303 13.122 34.224 0 48.972-29.828 59.756-58.22 62.912 4.573 3.957 8.648 11.717 8.648 23.612 0 17.06-.148 30.791-.148 34.991 0 3.393 2.295 7.369 8.759 6.117 50.634-16.879 87.122-64.656 87.122-120.973C255.009 57.085 197.922 0 127.505 0">
+          </path>
+          <path
+            d="M47.755 181.634c-.28.633-1.278.823-2.185.389-.925-.416-1.445-1.28-1.145-1.916.275-.652 1.273-.834 2.196-.396.927.415 1.455 1.287 1.134 1.923M54.027 187.23c-.608.564-1.797.302-2.604-.589-.834-.889-.99-2.077-.373-2.65.627-.563 1.78-.3 2.616.59.834.899.996 2.08.36 2.65M58.33 194.39c-.782.543-2.06.034-2.849-1.1-.781-1.133-.781-2.493.017-3.038.792-.545 2.05-.055 2.85 1.07.78 1.153.78 2.513-.019 3.069M65.606 202.683c-.699.77-2.187.564-3.277-.488-1.114-1.028-1.425-2.487-.724-3.258.707-.772 2.204-.555 3.302.488 1.107 1.026 1.445 2.496.7 3.258M75.01 205.483c-.307.998-1.741 1.452-3.185 1.028-1.442-.437-2.386-1.607-2.095-2.616.3-1.005 1.74-1.478 3.195-1.024 1.44.435 2.386 1.596 2.086 2.612M85.714 206.67c.036 1.052-1.189 1.924-2.705 1.943-1.525.033-2.758-.818-2.774-1.852 0-1.062 1.197-1.926 2.721-1.951 1.516-.03 2.758.815 2.758 1.86M96.228 206.267c.182 1.026-.872 2.08-2.377 2.36-1.48.27-2.85-.363-3.039-1.38-.184-1.052.89-2.105 2.367-2.378 1.508-.262 2.857.355 3.049 1.398">
+          </path>
+        </g>
+      </g>
+    </svg>
+    <a href="/api/session/github"> GitHub Login</a>
+  </button>
+  <a href="/api/session/google">Google!!!</a>
+</div>
+}}
+<section class="max-w-lg mx-auto mt-10 shadow-lg p-5 hover:shadow-2xl">
+  <div
+    class="w-full max-w-md p-8 space-y-3 rounded-xl bg-gray-900 text-gray-100"
+  >
+    <h1 class="text-2xl font-bold text-center">Login</h1>
+    <form novalidate="" action="" class="space-y-6" id="loginForm">
+      <div class="space-y-1 text-sm">
+        <label for="email" class="block text-white">Email</label>
+        <input
+          name="email"
+          type="email"
+          id="email"
+          placeholder="joeLp@example.com"
+          class="w-full px-4 py-3 rounded-md border-gray-700 bg-gray-900 text-gray-100 focus:border-violet-400"
+        />
+      </div>
+      <div class="space-y-1 text-sm">
+        <label for="password" class="block text-gray-400">Password</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Password"
+          class="w-full px-4 py-3 rounded-md border-gray-700 bg-gray-900 text-gray-100 focus:border-violet-400"
+        />
+        <div class="flex justify-end text-xs text-gray-400">
+          <button onclick="toggleForgotPassword()" type="button">Forgot
+            Password?</button>
+        </div>
+
+      </div>
+      <button
+        class="block w-full p-3 text-center rounded-sm text-gray-900 bg-violet-400"
+      >Sign in</button>
+    </form>
+    <div id="forgotPasswordContainer" class="mt-4" style="display: none;">
+      <form
+        onsubmit="sendForgotPasswordEmail(); return false;"
+        class="flex flex-col items-center"
+      >
+        <label for="email" class="text-withe font-semibold mb-2">Email:</label>
+        <input
+          type="email"
+          id="emailForgot"
+          placeholder="yoeLp@example.com"
+          required
+          class="border border-gray-400 text-black font-semibold px-4 py-2 rounded mb-2 focus:outline-none focus:border-blue-500"
+        />
+        <button
+          type="submit"
+          class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+        >
+          Enviar
+        </button>
+      </form>
+      <div
+        id="sucessMessage"
+        class="text-green-500 mt-2 font-bold text-center"
+        style="display: none;"
+      >
+        Email Enviado, verifica tu bandeja de entrada
+      </div>
+      <div
+        id="errorMessage"
+        class="text-red-500 mt-2 font-bold text-center"
+        style="display: none;"
+      >
+        Email incorrecto, intente de nuevo
+      </div>
+    </div>
+    <div
+      id="errorLoginMessage"
+      class="text-red-500 mt-2 font-bold text-center"
+      style="display: none;"
+    >
+      Credenciales invalidas, intente de nuevo
+    </div>
+    <div class="flex items-center pt-4 space-x-1">
+      <div class="flex-1 h-px sm:w-16 bg-gray-700"></div>
+      <p class="px-3 text-sm text-gray-400">Login with social accounts</p>
+      <div class="flex-1 h-px sm:w-16 bg-gray-700"></div>
+    </div>
+    <div class="flex justify-center space-x-4">
+      <a href="/api/session/google">
+        <button aria-label="Log in with Google" class="p-3 rounded-sm">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 32 32"
+            class="w-5 h-5 fill-current"
+          >
+            <path
+              d="M16.318 13.714v5.484h9.078c-0.37 2.354-2.745 6.901-9.078 6.901-5.458 0-9.917-4.521-9.917-10.099s4.458-10.099 9.917-10.099c3.109 0 5.193 1.318 6.38 2.464l4.339-4.182c-2.786-2.599-6.396-4.182-10.719-4.182-8.844 0-16 7.151-16 16s7.156 16 16 16c9.234 0 15.365-6.49 15.365-15.635 0-1.052-0.115-1.854-0.255-2.651z"
+            >
+            </path>
+          </svg>
+        </button></a>
+      {{! <button aria-label="Log in with Twitter" class="p-3 rounded-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="w-5 h-5 fill-current">
+          <path
+            d="M31.937 6.093c-1.177 0.516-2.437 0.871-3.765 1.032 1.355-0.813 2.391-2.099 2.885-3.631-1.271 0.74-2.677 1.276-4.172 1.579-1.192-1.276-2.896-2.079-4.787-2.079-3.625 0-6.563 2.937-6.563 6.557 0 0.521 0.063 1.021 0.172 1.495-5.453-0.255-10.287-2.875-13.52-6.833-0.568 0.964-0.891 2.084-0.891 3.303 0 2.281 1.161 4.281 2.916 5.457-1.073-0.031-2.083-0.328-2.968-0.817v0.079c0 3.181 2.26 5.833 5.26 6.437-0.547 0.145-1.131 0.229-1.724 0.229-0.421 0-0.823-0.041-1.224-0.115 0.844 2.604 3.26 4.5 6.14 4.557-2.239 1.755-5.077 2.801-8.135 2.801-0.521 0-1.041-0.025-1.563-0.088 2.917 1.86 6.36 2.948 10.079 2.948 12.067 0 18.661-9.995 18.661-18.651 0-0.276 0-0.557-0.021-0.839 1.287-0.917 2.401-2.079 3.281-3.396z">
+          </path>
+        </svg>
+      </button> }}
+      <a href="/api/session/github">
+        <button aria-label="Log in with GitHub" class="p-3 rounded-sm">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 32 32"
+            class="w-5 h-5 fill-current"
+          >
+            <path
+              d="M16 0.396c-8.839 0-16 7.167-16 16 0 7.073 4.584 13.068 10.937 15.183 0.803 0.151 1.093-0.344 1.093-0.772 0-0.38-0.009-1.385-0.015-2.719-4.453 0.964-5.391-2.151-5.391-2.151-0.729-1.844-1.781-2.339-1.781-2.339-1.448-0.989 0.115-0.968 0.115-0.968 1.604 0.109 2.448 1.645 2.448 1.645 1.427 2.448 3.744 1.74 4.661 1.328 0.14-1.031 0.557-1.74 1.011-2.135-3.552-0.401-7.287-1.776-7.287-7.907 0-1.751 0.62-3.177 1.645-4.297-0.177-0.401-0.719-2.031 0.141-4.235 0 0 1.339-0.427 4.4 1.641 1.281-0.355 2.641-0.532 4-0.541 1.36 0.009 2.719 0.187 4 0.541 3.043-2.068 4.381-1.641 4.381-1.641 0.859 2.204 0.317 3.833 0.161 4.235 1.015 1.12 1.635 2.547 1.635 4.297 0 6.145-3.74 7.5-7.296 7.891 0.556 0.479 1.077 1.464 1.077 2.959 0 2.14-0.020 3.864-0.020 4.385 0 0.416 0.28 0.916 1.104 0.755 6.4-2.093 10.979-8.093 10.979-15.156 0-8.833-7.161-16-16-16z"
+            >
+            </path>
+          </svg>
+        </button></a>
+    </div>
+    <p class="text-xs text-center sm:px-6 text-gray-400">Don't have an account?
+      <a
+        rel="noopener noreferrer"
+        href="/register"
+        class="underline text-gray-100"
+      >Sign up</a>
+    </p>
+  </div>
+</section>
+<script src="/js/login.js"></script>

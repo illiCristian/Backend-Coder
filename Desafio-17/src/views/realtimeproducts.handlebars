@@ -1,0 +1,167 @@
+<h1 class="text-center bg-gray-600 p-4 text-white text-xl">REALTIME PRODUCTS</h1>
+<div class="grid grid-cols-2 sm:grid-cols-3 bg-gray-800">
+  <div class="">
+    <form id="product-form" class="p-10 bg-gray-400 max-w-xs">
+      <h2 class="mb-5 text-md font-bold">Datos de producto</h2>
+      <div class="mb-5">
+        <label for="title" class="block font-medium mb-1">Title</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        />
+      </div>
+
+      <div class="mb-5">
+        <label for="price" class="block font-medium mb-1">Price</label>
+        <input
+          type="number"
+          id="price"
+          name="price"
+          class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        />
+      </div>
+
+      <div class="mb-5">
+        <label
+          for="description"
+          class="block font-medium mb-1"
+        >Description</label>
+        <input
+          type="text"
+          id="description"
+          name="description"
+          class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        />
+      </div>
+
+      <div class="mb-5">
+        <label for="code" class="block font-medium mb-1">Code</label>
+        <input
+          type="text"
+          id="code"
+          name="code"
+          class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        />
+      </div>
+
+      <div class="mb-5">
+        <label for="category" class="block font-medium mb-1">Category</label>
+        <input
+          type="text"
+          id="category"
+          name="category"
+          class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        />
+      </div>
+
+      <div class="mb-5">
+        <label for="stock" class="block font-medium mb-1">Stock</label>
+        <input
+          type="number"
+          id="stock"
+          name="stock"
+          class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        />
+      </div>
+
+      <div class="mb-5">
+        <label for="thumbnail" class="block font-medium mb-1">Thumbnail</label>
+        <input
+          type="text"
+          id="thumbnail"
+          name="thumbnail"
+          class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        />
+      </div>
+
+      <button
+        class="px-4 py-2 bg-green-800 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+      >Agregar</button>
+    </form>
+
+  </div>
+  <div class="col">
+    <div class="bg-white rounded-md p-3 shadow-md max-w-xs">
+      <form
+        id="productdeleteForm"
+        class="space-y-4"
+        method="post"
+        name="productos"
+      >
+        <div class="space-y-2">
+          <p class="font-medium">INGRESE EL ID DEL PRODUCTO A BORRAR</p>
+          <label for="id" class="font-medium block">ID</label>
+          <input
+            type="text"
+            id="id"
+            name="id"
+            class="w-full px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+          />
+        </div>
+        <button
+          class="w-full bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded-md"
+        >Eliminar</button>
+      </form>
+    </div>
+  </div>
+  <div class="flex flex-col md:flex-row md:space-x-4">
+    <div class="w-full md:w-1/2">
+      <table class="table w-full">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Id</th>
+          </tr>
+        </thead>
+        <tbody id="printListProducts">
+          {{#each products}}
+            <tr class="table-row">
+              <td class="border px-4 py-2 font-bold">{{this.title}}</td>
+              <td
+                class="border px-4 py-2 text-gray-600"
+              >{{this.description}}</td>
+              <td class="border px-4 py-2 text-green-600">${{this.price}}</td>
+              <td class="border px-4 py-2 text-blue-600">{{this.stock}}</td>
+              <td class="border px-4 py-2">{{this.id}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {{!-- <div class="w-full md:w-1/2">
+    <table class="table-auto">
+      <thead>
+        <tr>
+          <th class="px-4 py-2">#</th>
+          <th class="px-4 py-2">Title</th>
+          <th class="px-4 py-2">Price</th>
+          <th class="px-4 py-2">Stock</th>
+          <th class="px-4 py-2">Thumbnail</th>
+        </tr>
+      </thead>
+      <tbody id="printListProducts">
+        {{#each productos}}
+          <tr class="border-b">
+            <td class="px-4 py-2">{{this.id}}</td>
+            <td class="px-4 py-2">{{this.title}}</td>
+            <td class="px-4 py-2">${{this.price}}</td>
+            <td class="px-4 py-2">{{this.stock}}</td>
+            <td class="px-4 py-2"><img
+                src="{{this.thumbnail}}"
+                width="50"
+              /></td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div> --}}
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/home.js"></script>
