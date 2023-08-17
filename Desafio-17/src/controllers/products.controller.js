@@ -200,18 +200,31 @@ export default class ProductController {
     const { docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } =
       await productModel.paginate(filter, options);
     const products = docs;
-
-    res.render("products", {
-      products,
-      hasPrevPage,
-      hasNextPage,
-      nextPage,
-      prevPage,
-      limit,
-      totalPages,
-      user: req.session.user,
-    });
+    if (req.session.user.role === "admin") {
+      res.render("productsAdmin", {
+        products,
+        hasPrevPage,
+        hasNextPage,
+        nextPage,
+        prevPage,
+        limit,
+        totalPages,
+        user: req.session.user,
+      });
+    } else {
+      res.render("products", {
+        products,
+        hasPrevPage,
+        hasNextPage,
+        nextPage,
+        prevPage,
+        limit,
+        totalPages,
+        user: req.session.user,
+      });
+    }
   };
+  
   getProducts = async (req, res) => {
     try {
       const result = await productModel.find();

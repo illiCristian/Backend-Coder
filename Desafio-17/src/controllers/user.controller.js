@@ -1,3 +1,4 @@
+import { processImage } from "../utils/helpers/proccesImage.js";
 import { generateToken } from "../middlewares/validateToken.js";
 import userModel from "../Dao/models/user.js";
 import {
@@ -230,5 +231,23 @@ export default class UserController {
         message: error.message,
       });
     }
+  };
+
+  uploadPicture = async (req, res) => {
+    //Tomo las imagenes del req.files
+    const images = req.files;
+    let imagePaths = [];
+    if (images) {
+      try {
+        imagePaths = await Promise.all(
+          images.map((image) => processImage(image))
+        );
+      } catch (error) {
+        return res
+          .status(500)
+          .json({ error: "Error al procesar las imágenes", Eerror: error });
+      }
+    }
+    res.status(200).json({ message: imagePaths });
   };
 }
