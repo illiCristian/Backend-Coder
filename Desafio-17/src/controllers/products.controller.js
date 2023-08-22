@@ -200,7 +200,7 @@ export default class ProductController {
     const { docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } =
       await productModel.paginate(filter, options);
     const products = docs;
-    if (req.session.user.role === "admin") {
+    if (req.session?.user?.role === "admin") {
       res.render("productsAdmin", {
         products,
         hasPrevPage,
@@ -224,7 +224,7 @@ export default class ProductController {
       });
     }
   };
-  
+
   getProducts = async (req, res) => {
     try {
       const result = await productModel.find();

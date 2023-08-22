@@ -4,7 +4,6 @@ import ChatController from "../controllers/chat.controller.js";
 import CartController from "../controllers/cart.controller.js";
 import {
   publicAcces,
-  privateAcces,
   adminAcces,
   isAuth,
 } from "./../middlewares/userMiddleware.js";

@@ -29,6 +29,29 @@ const userSchema = new mongoose.Schema(
       default: "user",
       enum: ["user", "admin", "premium"],
     },
+    documents: {
+      type: [
+        {
+          name: { type: String, required: true },
+          reference: { type: String, required: true },
+        },
+      ],
+      default: [],
+    },
+    last_connection: {
+      type: Date,
+      default: null,
+    },
+    status: {
+      type: String,
+      require: true,
+      enums: ["completo", "incompleto", "pendiente"],
+      default: "pendiente",
+    },
+    avatar: {
+      type: String,
+      default: "",
+    },
   },
   {
     timestamps: true,
