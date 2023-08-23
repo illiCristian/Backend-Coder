@@ -131,7 +131,20 @@ export default class UserController {
       token: token,
     });
   };
-  logout = (req, res) => {
+  async logout(req, res) {
+    /*   console.log(req.session);
+    console.log("session");
+    console.log(req.session.user); */
+    if (req.session.user) {
+      const user = await userModel.findById(
+        req.session?.user?.id || req?.session?.user._id
+      );
+      if (user) {
+        user.last_connection = new Date();
+        await user.save();
+      }
+    }
+
     req.session.destroy((err) => {
       if (err) {
         return res
@@ -141,7 +154,7 @@ export default class UserController {
       res.redirect("/login");
       req.logger.info("Usuario desconectado");
     });
-  };
+  }
   faillogin = (req, res) => {
     // req.logger.warn("Fallo en el ingreso");
     /*  res.send({ error: "Error en el ingreso" }); */
@@ -198,7 +211,15 @@ export default class UserController {
         });
       const userRole = user.role;
       if (userRole === "user") {
-        user.role = "premium";
+        if (user.documents.length === 3) {
+          user.role = "premium";
+        } else {
+          return res.send({
+            status: "error",
+            message:
+              "no se puede cambiar el role del usuario por que tiene pendiente cargar documentos ",
+          });
+        }
       } else if (userRole === "premium") {
         user.role = "user";
       } else {
@@ -279,9 +300,7 @@ export default class UserController {
         user.status = "incompleto";
       }
       user.documents = docs;
-      console.log(docs);
-      console.log("user");
-      console.log(user);
+
       const userUpdate = await userModel.findByIdAndUpdate(user._id, user);
 
       res.json({ status: "success", message: "Documentos actualizados" });

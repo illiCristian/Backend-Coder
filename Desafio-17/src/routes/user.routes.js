@@ -16,10 +16,13 @@ router.post("/contact", validateSchema(contactSchema), userController.contact);
 //http://localhost:8080/api/users/64e3cded6bc58576c4ba0a89/documents
 router.put(
   "/:uid/documents",
+  privateAcces,
   uploaderDocument.fields([
     { name: "identificacion", maxCount: 1 },
     { name: "domicilio", maxCount: 1 },
     { name: "estadoDeCuenta", maxCount: 1 },
+    { name: "images", maxCount: 1 },
+    { name: "products", maxCount: 1 },
   ]),
   UserController.updateUserDocument
 );

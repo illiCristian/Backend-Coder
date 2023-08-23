@@ -102,6 +102,9 @@ const initializePassport = () => {
               age: 18,
               password: "",
               cart: newCart._id,
+              last_connection: new Date(),
+              documents: [],
+              provider: "Google",
             };
             const result = await userMongo.createUser(newUser);
             done(null, result);
@@ -138,6 +141,9 @@ const initializePassport = () => {
               age: 18,
               password: "",
               cart: newCart._id,
+              last_connection: new Date(),
+              documents: [],
+              provider: "Github",
             };
             const result = await userMongo.createUser(newUser);
             done(null, result);
