@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { adminAcces } from "../middlewares/userMiddleware.js";
+import { adminAcces, privateAcces } from "../middlewares/userMiddleware.js";
 import UserController from "../controllers/user.controller.js";
 import { validateSchema } from "../middlewares/validateSchema.js";
 import { contactSchema } from "../schemas/auth.schema.js";
+import { uploaderDocument } from "../middlewares/multerFiles.js";
 
 const router = Router();
 const userController = new UserController();
@@ -12,6 +13,22 @@ router.get("/premium/:uid", (req, res) => {
 });
 //
 router.post("/contact", validateSchema(contactSchema), userController.contact);
+//http://localhost:8080/api/users/64e3cded6bc58576c4ba0a89/documents
+router.put(
+  "/:uid/documents",
+  privateAcces,
+  uploaderDocument.fields([
+    { name: "identificacion", maxCount: 1 },
+    { name: "domicilio", maxCount: 1 },
+    { name: "estadoDeCuenta", maxCount: 1 },
+    { name: "images", maxCount: 1 },
+    { name: "products", maxCount: 1 },
+  ]),
+  UserController.updateUserDocument
+);
+
 router.put("/premium/:uid", adminAcces, userController.changeRol);
 
 export default router;
+
+/*   */

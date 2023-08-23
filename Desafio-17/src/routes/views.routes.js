@@ -4,7 +4,6 @@ import ChatController from "../controllers/chat.controller.js";
 import CartController from "../controllers/cart.controller.js";
 import {
   publicAcces,
-  privateAcces,
   adminAcces,
   isAuth,
 } from "./../middlewares/userMiddleware.js";
@@ -33,7 +32,7 @@ router.get("/cart", cartController.getCart);
 /* User */
 router.get("/register", isAuth, userController.registerView);
 router.get("/login", isAuth, userController.loginView);
-router.get("/profile", privateAcces, userController.profileView);
+router.get("/profile", publicAcces, userController.profileView);
 router.get("/resetpassword", userController.resetPasswordView);
-router.get("/admin", privateAcces, adminAcces, userController.admin);
+router.get("/admin", publicAcces, adminAcces, userController.admin);
 export default router;

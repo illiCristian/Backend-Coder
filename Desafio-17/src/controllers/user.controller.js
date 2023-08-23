@@ -1,3 +1,4 @@
+import { processImage } from "../utils/helpers/proccesImage.js";
 import { generateToken } from "../middlewares/validateToken.js";
 import userModel from "../Dao/models/user.js";
 import {
@@ -130,7 +131,20 @@ export default class UserController {
       token: token,
     });
   };
-  logout = (req, res) => {
+  async logout(req, res) {
+    /*   console.log(req.session);
+    console.log("session");
+    console.log(req.session.user); */
+    if (req.session.user) {
+      const user = await userModel.findById(
+        req.session?.user?.id || req?.session?.user._id
+      );
+      if (user) {
+        user.last_connection = new Date();
+        await user.save();
+      }
+    }
+
     req.session.destroy((err) => {
       if (err) {
         return res
@@ -140,7 +154,7 @@ export default class UserController {
       res.redirect("/login");
       req.logger.info("Usuario desconectado");
     });
-  };
+  }
   faillogin = (req, res) => {
     // req.logger.warn("Fallo en el ingreso");
     /*  res.send({ error: "Error en el ingreso" }); */
@@ -197,7 +211,15 @@ export default class UserController {
         });
       const userRole = user.role;
       if (userRole === "user") {
-        user.role = "premium";
+        if (user.documents.length === 3) {
+          user.role = "premium";
+        } else {
+          return res.send({
+            status: "error",
+            message:
+              "no se puede cambiar el role del usuario por que tiene pendiente cargar documentos ",
+          });
+        }
       } else if (userRole === "premium") {
         user.role = "user";
       } else {
@@ -228,6 +250,65 @@ export default class UserController {
       res.status(500).json({
         status: "error",
         message: error.message,
+      });
+    }
+  };
+
+  uploadPicture = async (req, res) => {
+    //Tomo las imagenes del req.files
+    const images = req.files;
+    let imagePaths = [];
+    if (images) {
+      try {
+        imagePaths = await Promise.all(
+          images.map((image) => processImage(image))
+        );
+      } catch (error) {
+        return res
+          .status(500)
+          .json({ error: "Error al procesar las imágenes", Eerror: error });
+      }
+    }
+    res.status(200).json({ message: imagePaths });
+  };
+  static updateUserDocument = async (req, res) => {
+    try {
+      const userId = req.params.uid;
+      const user = await userModel.findById(userId);
+      const identificacion = req.files["identificacion"]?.[0] || null;
+      const domicilio = req.files["domicilio"]?.[0] || null;
+      const estadoDeCuenta = req.files["estadoDeCuenta"]?.[0] || null;
+      const docs = [];
+      if (identificacion) {
+        docs.push({
+          name: "identificacion",
+          reference: identificacion.filename,
+        });
+      }
+      if (domicilio) {
+        docs.push({ name: "domicilio", reference: domicilio.filename });
+      }
+      if (estadoDeCuenta) {
+        docs.push({
+          name: "estadoDeCuenta",
+          reference: estadoDeCuenta.filename,
+        });
+      }
+      if (docs.length === 3) {
+        user.status = "completo";
+      } else {
+        user.status = "incompleto";
+      }
+      user.documents = docs;
+
+      const userUpdate = await userModel.findByIdAndUpdate(user._id, user);
+
+      res.json({ status: "success", message: "Documentos actualizados" });
+    } catch (error) {
+      console.log(error.message);
+      res.json({
+        status: "error",
+        message: "Hubo un error en la carga de los archivos.",
       });
     }
   };

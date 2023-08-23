@@ -20,7 +20,7 @@ const initializePassport = () => {
     const user = await userMongo.findUserById(id);
     done(null, user);
   });
- 
+
   passport.use(
     "register",
     new LocalStrategy(
@@ -69,6 +69,8 @@ const initializePassport = () => {
             return done(null, false);
           }
           if (!validatePassword(password, user)) return done(null, false);
+          user.last_connection = new Date();
+          await user.save();
           return done(null, user);
         } catch (error) {
           return done("Error al intentar ingresar: " + error);
@@ -100,6 +102,9 @@ const initializePassport = () => {
               age: 18,
               password: "",
               cart: newCart._id,
+              last_connection: new Date(),
+              documents: [],
+              provider: "Google",
             };
             const result = await userMongo.createUser(newUser);
             done(null, result);
@@ -136,6 +141,9 @@ const initializePassport = () => {
               age: 18,
               password: "",
               cart: newCart._id,
+              last_connection: new Date(),
+              documents: [],
+              provider: "Github",
             };
             const result = await userMongo.createUser(newUser);
             done(null, result);

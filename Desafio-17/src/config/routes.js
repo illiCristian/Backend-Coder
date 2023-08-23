@@ -11,6 +11,7 @@ import userRouter from "../routes/user.routes.js";
 import { swaggerSpec } from "../config/swaggerConfig.js";
 import swaggerUi from "swagger-ui-express";
 import sessionRouter from "../routes/sessions.routes.js";
+import imageRouter from "../routes/images.routes.js";
 function configureRoutes(app) {
   //app.use("/realTimeProducts", realTimeProducts);
   // app.use("/api/products", productRouter);
@@ -23,6 +24,7 @@ function configureRoutes(app) {
   app.use("/loggertest", loggerRoute);
   app.use("/api/users", userRouter);
   app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  app.use("/api/images", imageRouter);
   app.use("/api/session", sessionRouter);
 }
 export default configureRoutes;
